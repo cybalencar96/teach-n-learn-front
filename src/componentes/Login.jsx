@@ -23,20 +23,21 @@ class Login extends Component {
     evento.preventDefault();
     evento.stopPropagation();
     this.props.LogUserIn(this.email, this.senha);
+    this.props.history.push("/");
   }
 
   render() {return (
     <div className="login">
       <form onSubmit={this._HandleLogin.bind(this)}>
-        <fieldset>
+        <fieldset className="inputCampo">
           <label>Email</label>
           <input onChange={this._HandleEmailChange.bind(this)} type="email"></input>
         </fieldset>
-        <fieldset>
+        <fieldset className="inputCampo">
           <label>Senha</label>
           <input onChange={this._HandlePassChange.bind(this)} type="password"></input>
         </fieldset>
-        <input type="submit" value="vai"></input>
+        <input type="submit" value="Entrar"></input>
       </form>
     </div>
   );}
