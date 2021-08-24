@@ -1,7 +1,6 @@
 import Perfil from "./componentes/Perfil"
 import Login from "./componentes/Login";
 import Logout from "./componentes/Logout";
-import ItemDetail from "./itemDetail";
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Home from "./componentes/Home";
@@ -14,7 +13,8 @@ class App extends Component {
         super();
         this.state = {
             userIsLogged: false,
-            userId: null
+            userId: null,
+            userDados: null
         }
     }
 
@@ -26,9 +26,18 @@ class App extends Component {
             password: senha
         };
         if (usuario.password === senha){
+            const call = await fetch(
+                `https://fortnite-api.com/v2/stats/br/v2?name=Ninja&image=all`, {
+                headers: {
+                  'TRN-Api-Key': '82f27d5f-472e-4a68-960a-cf1708e97a24',
+                }
+              })
+          
+            const dados = await call.json();
             const novoEstado = {
                 userIsLogged: true,
-                userId: 1
+                userId: dados.data.account.id,
+                userDados: dados.data
             };
             this.setState(novoEstado);
         }
@@ -52,11 +61,10 @@ class App extends Component {
                     {/* O component switch serve para para no primeiro match da URl */}
                     <Switch>
                         {/* O component Route serve para criar rotas pra aplicação e renderizar outros componentes  */}
-                        <Route path="/about" component={Perfil} />
+                        <Route path="/perfil" exact render={ (props) => <Perfil {...props} estado={this.state} /> } />
                         {/* atributo exact serve para somente carregar a pagina home se tiver apenas o / vazio sem nada depois */}
                         <Route path="/" exact component={Home} />
                         <Route path="/login" exact render={ (props) => <Login {...props} LogUserIn={this.LogUserIn.bind(this)} />} />
-                        <Route path="/shop/:id" component={ItemDetail} />
                         <Route path="/logout" exact render={ (props) => <Logout {...props} estado={this.LogUserOut.bind(this)}  />} />
                     </Switch>
                 </div>
