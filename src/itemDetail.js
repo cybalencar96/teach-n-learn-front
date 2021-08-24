@@ -1,4 +1,3 @@
-import './App.css';
 import React, {useState, useEffect } from 'react';
  
 // match é um parametro reservado do react que armazena as informações do :id 
