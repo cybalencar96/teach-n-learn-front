@@ -1,4 +1,4 @@
-import Perfil from "./componentes/Perfil"
+import Perfil from "./componentes/Perfil";
 import Login from "./componentes/Login";
 import Logout from "./componentes/Logout";
 import React, { Component } from "react";
@@ -7,6 +7,7 @@ import Home from "./componentes/Home";
 import "./index.css";
 import Cabecalho from "./componentes/Cabecalho";
 import EditProfile from "./componentes/editProfile";
+import Aulas from "./componentes/Aulas";
 
 class App extends Component {
 
@@ -15,40 +16,34 @@ class App extends Component {
         this.state = {
             userIsLogged: false,
             userId: null,
-            userDados: null
+            userDados: null,
         }
     }
 
     async LogUserIn(email, senha){
-        /* const banco = await fetch();
-        const usuario = await banco.json(); */
-        const usuario = {
-            password: senha
-        };
+        const banco = await fetch("https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login", {
+            method: "POST",
+            mode: "cors",
+            "username": "usuario2123",
+            "password": "usuario2123"
+        });
+        const usuario = await banco.json();
+        console.log(usuario);
+        /* usuario = {
+            "username": email,
+            "password": senha
+        } */
         if (usuario.password === senha){
-            /* const call = await fetch(
-                `https://fortnite-api.com/v2/stats/br/v2?name=Ninja&image=all`, {
-                headers: {
-                  'TRN-Api-Key': '82f27d5f-472e-4a68-960a-cf1708e97a24',
-                }
-              }) */
-          
-            //const dados = await call.json();
-            const dados = {
-                "name": "batman",
-                "email": "bruce@wayne.com",
-                "profileImg": "https://tecnoblog.net/wp-content/uploads/2021/04/Qual-a-ordem-cronologica-dos-filmes-do-Batman-Deny-Freeman-Flickr.jpg",
-                "username": "obatman",
-                "password": "coringa123",
-                "phone": "+1123456789"
-            }
             const novoEstado = {
                 userIsLogged: true,
                 userId: Math.random()*10,
-                userDados: dados
+                userDados: usuario
             };
             this.setState(novoEstado);
+            return 0;
         }
+
+        return 1;
     }
 
     LogUserOut () {
@@ -65,8 +60,9 @@ class App extends Component {
         }
         this.setState(novoEstado);
         console.log(this.state);
-
     }
+
+    
 
     render(){
         return (
@@ -76,6 +72,7 @@ class App extends Component {
                 <div className="App">
                     {/* O component switch serve para para no primeiro match da URl */}
                     <Switch>
+                        <Route path="/aulas" component={Aulas} />
                         <Route path="/editProfile" exact render={(props) => <EditProfile {...props} estado={this.state} editaPerfil={this.EditP.bind(this)} /> } />
                         {/* O component Route serve para criar rotas pra aplicação e renderizar outros componentes  */}
                         <Route path="/perfil" exact render={ (props) => <Perfil {...props} estado={this.state} /> } />

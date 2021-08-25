@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import Alerta from "./Alerta";
 const queryString = require('query-string');
+
 
 class Login extends Component {
 
@@ -8,6 +10,9 @@ class Login extends Component {
     this.email="";
     this.senha="";
     this.redirect = queryString.parse(this.props.location.search).redirect;
+    this.state = {
+      msg: ""
+    }
   }
 
   _HandleEmailChange(evento){
@@ -24,10 +29,11 @@ class Login extends Component {
   _HandleLogin(evento){
     evento.preventDefault();
     evento.stopPropagation();
-    this.props.LogUserIn(this.email, this.senha);
-    if(this.redirect){
-      console.log("Veio de redi");
-      this.props.history.push("/perfil");
+    if(this.props.LogUserIn(this.email, this.senha)){
+      const novoEstado = {
+        msg: "loginFailed"
+      };
+      this.setState(novoEstado);
     } else {
       this.props.history.push("/");
     }
@@ -35,6 +41,7 @@ class Login extends Component {
 
   render() {return (
     <div className="login">
+      <Alerta msg={this.state.msg} />
       <form onSubmit={this._HandleLogin.bind(this)}>
         <fieldset className="inputCampo">
           <label>Email</label>
