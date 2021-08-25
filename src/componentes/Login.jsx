@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+const queryString = require('query-string');
 
 class Login extends Component {
 
@@ -6,6 +7,7 @@ class Login extends Component {
     super(props);
     this.email="";
     this.senha="";
+    this.redirect = queryString.parse(this.props.location.search).redirect;
   }
 
   _HandleEmailChange(evento){
@@ -23,7 +25,12 @@ class Login extends Component {
     evento.preventDefault();
     evento.stopPropagation();
     this.props.LogUserIn(this.email, this.senha);
-    this.props.history.push("/");
+    if(this.redirect){
+      console.log("Veio de redi");
+      this.props.history.push("/perfil");
+    } else {
+      this.props.history.push("/");
+    }
   }
 
   render() {return (

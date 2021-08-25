@@ -451,7 +451,7 @@ a:active, a:focus {
   display: flex;
   height: 50%;
   background-color: rgb(0, 160, 211);
-  font-family: sans-serif, arial;
+  font-family: 'Alegreya Sans', sans-serif;
 }
 
 .cabecalho ul {
@@ -476,7 +476,6 @@ a:active, a:focus {
 }
 
 .cabecalho h1{
-  font-family: Helvetica, Arial, sans-serif, Times;
   font-weight: bold;
   font-size: 45px;
 }
@@ -521,7 +520,7 @@ a:active, a:focus {
   border: black solid;
 }
 
-input[type="submit"] {
+input[type="submit"], button{
   border-radius: 5px;
   border: none;
   background-color:  rgb(0, 160, 211);
@@ -530,11 +529,28 @@ input[type="submit"] {
   padding: 5px;
 }
 
+button a {
+  /* -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button; */
+  padding: 15px;
+  color:white;
+  text-decoration: none;
+  display: block;
+  background-color: transparent;
+  border-radius: 5px;
+  border: none;
+}
+
+button:hover {
+  background-color: rgb(0, 0, 0)
+}
+
 input[type="submit"]:hover {
   background-color: rgb(0, 0, 0);
 }
 
-.login {
+.login, .edit {
   border: #000 solid;
   background-color: rgb(109, 110, 113);
   border-radius: 6px;
@@ -545,13 +561,18 @@ input[type="submit"]:hover {
   justify-content: center;
 }
 
-.login form {
+.login form, 
+.edit form {
   display:flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.login input[type="email"], input[type="password"] {
+.login input[type="email"], 
+.login input[type="password"],
+.edit input[type="email"], 
+.edit input[type="password"],
+.edit input[type="text"]   {
   margin: 5px;
   border-radius: 10px;
   line-height: 10px;
@@ -559,6 +580,70 @@ input[type="submit"]:hover {
   border: black solid;
 }
 
+.inputCampo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .inputCampo label{
   color: white;
+  justify-self: flex-start;
+}
+
+.topo-perfil {
+  display:flex;
+  padding: auto;
+}
+
+.topo-perfil-foto {
+  width: 25%;
+}
+
+.topo-perfil-info {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+}
+
+.topo-perfil-foto img {
+  border-radius: 10px;
+  width:100%;
+}
+
+.topo-perfil h1 {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.topo-perfil h2 {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.lista-cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-aula {
+  border:rgb(0, 0, 0) 5px;
+  background-color: white;
+  margin: 10px;
+  padding: 5px;
+  font-family: 'Inter', sans-serif;
+  border-radius: 5px;
+}
+
+.card-aula h1 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.card-aula h2 {
+  font-size: 15px;
 }

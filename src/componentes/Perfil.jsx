@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class Perfil extends Component {
 
@@ -7,35 +7,34 @@ class Perfil extends Component {
     super(props);
     this.logado = this.props.estado.userIsLogged;
     this.idUsuario = this.props.estado.userId;
+    //Se usuário estiver logado, guarda as informacoes existentes,
+    //caso contrário, deixa tudo como nulo e segue para o redirecionamento.
+    //Isso garante que não haverá erro de construcao com dados nulos.
     if (this.logado) {
-      this.foto = this.props.estado.userDados.image;
-      this.userHandle = this.props.estado.userDados.account.name;
-      this.wins = this.props.estado.userDados.stats.all.overall.wins;
-      this.kills = this.props.estado.userDados.stats.all.overall.kills;
-    } else {
-      this.foto = null;
-      this.userHandle = null;
-      this.wins = null;
-      this.kills = null;
-    }
-    
-    this.state = {
-      info: false
+      this.foto = this.props.estado.userDados.profileImg;
+      this.userHandle = this.props.estado.userDados.name;
+      this.email = this.props.estado.userDados.email;
+      this.phone = this.props.estado.userDados.phone;
     }
   }
 
   render() {
     if (!this.logado){
       return (
-        <Redirect to="/login" />
+        <Redirect to="/login?redirect=true" />
       );
     }
     return ( 
       <div className="topo-perfil">
-        <img src={this.foto} alt="Foto de perfil"/>
-        <h1>Usuario: {this.userHandle}</h1>
-        <h1>Kills: {this.kills}</h1>
-        <h1>Wins: {this.wins}</h1>
+        <div className="topo-perfil-foto">
+          <img src={this.foto} alt="Foto de perfil"/>
+        </div>
+        <div className="topo-perfil-info">
+          <h1>Usuario: {this.userHandle}</h1>
+          <h2>Email: {this.email}</h2>
+          <h2>Telefone: {this.phone}</h2>
+          <button><Link to='/editProfile'> Editar</Link> </button>
+        </div>
       </div>
      );
   }
