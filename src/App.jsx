@@ -22,15 +22,24 @@ class App extends Component {
     }
 
     async LogUserIn(email, senha){
-        console.log("Login");
-        axios.post("https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",{
-                body: {
-                    username: "usuario2123",
-                    password: "usuario2123"
-                }
+        // console.log("Login");
+        // axios.post("https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",{
+        //         body: {
+        //             username: "usuario2123",
+        //             password: "usuario2123"
+        //         }
                 
-            }
-        ).then( res => console.log(res.data)).catch(err => console.log(err.response))
+        //     }
+        // ).then( res => console.log(res.data)).catch(err => console.log(err.response))
+        console.log("Login");
+         axios.post("https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",{
+                 body: {
+                     username: "usuario2123",
+                     password: "usuario2123"
+                 }
+                
+             }
+         ).then( res => console.log(res.data)).catch(err => console.log(err.response))
         // const usuario = await banco.json();
         // console.log(usuario);
         // if (usuario.password === senha){
