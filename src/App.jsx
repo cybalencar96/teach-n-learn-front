@@ -8,6 +8,7 @@ import "./index.css";
 import Cabecalho from "./componentes/Cabecalho";
 import EditProfile from "./componentes/editProfile";
 import Aulas from "./componentes/Aulas";
+const axios = require('axios');
 
 class App extends Component {
 
@@ -21,18 +22,14 @@ class App extends Component {
     }
 
     async LogUserIn(email, senha){
-        const banco = await fetch("https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login", {
-            method: "POST",
-            mode: "cors",
-            "username": "usuario2123",
-            "password": "usuario2123"
-        });
+        console.log("Login");
+        const banco = axios.post("https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",{
+                "username": "usuario2123",
+                "password": "usuario2123"
+            }
+        );
         const usuario = await banco.json();
         console.log(usuario);
-        /* usuario = {
-            "username": email,
-            "password": senha
-        } */
         if (usuario.password === senha){
             const novoEstado = {
                 userIsLogged: true,
