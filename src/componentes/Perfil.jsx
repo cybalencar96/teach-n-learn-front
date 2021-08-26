@@ -11,10 +11,10 @@ class Perfil extends Component {
     //caso contrário, deixa tudo como nulo e segue para o redirecionamento.
     //Isso garante que não haverá erro de construcao com dados nulos.
     if (this.logado) {
-      this.foto = this.props.estado.userDados.profileImg;
-      this.userHandle = this.props.estado.userDados.name;
-      this.email = this.props.estado.userDados.email;
-      this.phone = this.props.estado.userDados.phone;
+      this.userHandle = this.props.estado.userDados.basicInfo.name;
+      this.email = this.props.estado.userDados.basicInfo.email;
+      this.phone = this.props.estado.userDados.basicInfo.phone;
+      this.foto = this.props.estado.userDados.basicInfo.profileImg;
     }
   }
 

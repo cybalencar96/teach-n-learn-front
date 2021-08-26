@@ -578,16 +578,26 @@ input[type="submit"]:hover {
   justify-content: center;
 }
 
-.login input[type="email"], 
-.login input[type="password"],
-.edit input[type="email"], 
-.edit input[type="password"],
-.edit input[type="text"]   {
+input[type="email"], 
+input[type="password"],
+input[type="text"]   {
   margin: 5px;
   border-radius: 10px;
   line-height: 10px;
   background-color: white;
   border: black solid;
+}
+
+input[type="text"]{
+  margin: 5px;
+  border-radius: 10px;
+  line-height: 10px;
+  background-color: white;
+  border: black solid;
+}
+
+.imputCampo label {
+  display: block;
 }
 
 .inputCampo {

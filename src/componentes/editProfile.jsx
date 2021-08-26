@@ -4,7 +4,7 @@ class EditProfile extends Component {
     
     constructor (props){
         super(props);
-        this.dados = this.props.estado.userDados;
+        this.dados = this.props.estado.userDados.basicInfo;
     }
 
     _HandleForm(evento){
@@ -37,6 +37,7 @@ class EditProfile extends Component {
     }
 
     render() { 
+        console.log(this.dados);
         return ( 
             <div className="edit">
                 <form onSubmit={this._HandleForm.bind(this)}>
