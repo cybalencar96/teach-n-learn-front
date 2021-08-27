@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Alerta from "./Alerta";
 const queryString = require("query-string");
+const axios = require("axios");
 
 class Login extends Component {
     constructor(props) {
@@ -28,18 +29,36 @@ class Login extends Component {
     async _HandleLogin(evento) {
         evento.preventDefault();
         evento.stopPropagation();
-        const resultado = await this.props.LogUserIn(this.username, this.senha);
-        console.log("Veio resultado");
-        console.log(await resultado);
-        if (resultado) {
-            const novoEstado = {
-                msg: "loginFailed",
-            };
-            this.setState(novoEstado);
-        } else {
-            this.props.history.push("/");
-        }
-        
+        await axios
+            .post(
+                "https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",
+                {
+                    body: {
+                        username: this.username,
+                        password: this.senha,
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res.data);
+                if (res.data.status === 200) {
+                    //login success
+                    const novoEstado = {
+                        userIsLogged: true,
+                        userId: res.data.userData.id,
+                        userDados: res.data.userData,
+                    };
+                    console.log("Vai mudar estado");
+                    this.props.LogUserIn(novoEstado);
+                    this.props.history.push("/");
+                } else {
+                    const novoEstado = {
+                        msg: "loginFailed"
+                    }
+                    this.setState(novoEstado);
+                }
+            })
+            .catch((err) => console.log(err.response));
     }
 
     render() {

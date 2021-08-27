@@ -9,7 +9,6 @@ import Cabecalho from "./componentes/Cabecalho";
 import EditProfile from "./componentes/editProfile";
 import Aulas from "./componentes/Aulas";
 import SignIn from "./componentes/SignIn";
-const axios = require("axios");
 
 class App extends Component {
     constructor() {
@@ -21,33 +20,9 @@ class App extends Component {
         };
     }
 
-    async LogUserIn(usuario, senha) {
+    LogUserIn(novoEstado) {
         console.log("Login");
-        axios
-            .post(
-                "https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",
-                {
-                    body: {
-                        username: usuario,
-                        password: senha,
-                    },
-                }
-            )
-            .then((res) => {
-                console.log(res.data);
-                if (res.data.status === 200) { //login success
-                    const novoEstado = {
-                        userIsLogged: true,
-                        userId: res.data.userData.id,
-                        userDados: res.data.userData,
-                    };
-                    this.setState(novoEstado);
-                    return 0;
-                }
-
-                return 1;
-            })
-            .catch((err) => console.log(err.response));
+        this.setState(novoEstado);
     }
 
     LogUserOut() {
