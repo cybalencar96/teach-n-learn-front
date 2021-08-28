@@ -39,7 +39,7 @@ class EditProfile extends Component {
     render() { 
         console.log(this.dados);
         return ( 
-            <div className="edit">
+            <div className="container-form">
                 <form onSubmit={this._HandleForm.bind(this)}>
                     <fieldset className="inputCampo">
                         <label>Nome</label>

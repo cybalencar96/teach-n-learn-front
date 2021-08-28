@@ -1,14 +1,15 @@
-import Perfil from "./componentes/Perfil";
+import Perfil from "./componentes/Perfil/Perfil";
 import Login from "./componentes/Login";
 import Logout from "./componentes/Logout";
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./componentes/Home";
 import "./index.css";
-import Cabecalho from "./componentes/Cabecalho";
+import Cabecalho from "./componentes/Cabecalho/Cabecalho";
 import EditProfile from "./componentes/editProfile";
 import Aulas from "./componentes/Aulas";
 import SignIn from "./componentes/SignIn";
+import AddAula from "./componentes/AddAula/AddAula";
 
 class App extends Component {
     constructor() {
@@ -39,7 +40,6 @@ class App extends Component {
             userDados: dadosNovos,
         };
         this.setState(novoEstado);
-        console.log(this.state);
     }
 
     render() {
@@ -48,8 +48,8 @@ class App extends Component {
                 <Router>
                     <Cabecalho estado={this.state}></Cabecalho>
                     <div className="App">
-                        {/* O component switch serve para para no primeiro match da URl */}
                         <Switch>
+                            <Route path="/addAula" render={ (props) => <AddAula {...props} id={this.state.userId} />} />
                             <Route path="/aulas" component={Aulas} />
                             <Route
                                 path="/editProfile"

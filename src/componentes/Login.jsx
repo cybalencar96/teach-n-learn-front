@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Alerta from "./Alerta";
-const queryString = require("query-string");
 const axios = require("axios");
 
 class Login extends Component {
@@ -9,8 +8,8 @@ class Login extends Component {
         super(props);
         this.username = "";
         this.senha = "";
-        this.redirect = queryString.parse(this.props.location.search).redirect;
         this.state = {
+            botao: "Entrar",
             msg: "",
         };
     }
@@ -29,8 +28,9 @@ class Login extends Component {
     async _HandleLogin(evento) {
         evento.preventDefault();
         evento.stopPropagation();
+        this.setState({botao: "Entrando..."}) //Indica ao usuário pelo botão que o proceso está sendo feito
         await axios
-            .post(
+            .post( //Requisição de login ao servidor
                 "https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",
                 {
                     body: {
@@ -40,7 +40,6 @@ class Login extends Component {
                 }
             )
             .then((res) => {
-                console.log(res.data);
                 if (res.data.status === 200) {
                     //login success
                     const novoEstado = {
@@ -48,13 +47,13 @@ class Login extends Component {
                         userId: res.data.userData.id,
                         userDados: res.data.userData,
                     };
-                    console.log("Vai mudar estado");
                     this.props.LogUserIn(novoEstado);
-                    this.props.history.push("/");
+                    this.props.history.push("/"); //Redireciona para a Home
                 } else {
                     const novoEstado = {
-                        msg: "loginFailed"
-                    }
+                        msg: "loginFailed", //Para exibir uma mensagem de erro ao usuario
+                        botao: "Entrar",
+                    };
                     this.setState(novoEstado);
                 }
             })
@@ -63,7 +62,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login">
+            <div className="container-form">
                 <Alerta msg={this.state.msg} />
                 <form onSubmit={this._HandleLogin.bind(this)}>
                     <fieldset className="inputCampo">
@@ -80,7 +79,7 @@ class Login extends Component {
                             type="password"
                         ></input>
                     </fieldset>
-                    <input type="submit" value="Entrar"></input>
+                    <input type="submit" value={this.state.botao}></input>
                 </form>
                 <button>
                     <Link to="/signin">Faça seu cadastro</Link>
