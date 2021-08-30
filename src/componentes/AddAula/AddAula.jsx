@@ -20,8 +20,9 @@ class AddAula extends Component {
             ],
             listaDias: [...lista],
         };
+        const id = JSON.parse(sessionStorage.getItem("user")).id;
         this.aula = {
-            teacherId: this.props.id,
+            teacherId: id,
             class: "",
             maxStudents: 0,
             price: 0,

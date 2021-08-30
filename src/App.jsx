@@ -15,22 +15,26 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            userIsLogged: false,
-            userId: null,
-            userDados: null,
+            userIsLogged: JSON.parse(sessionStorage.getItem("userIsLogged")),
         };
+        console.log(JSON.parse(sessionStorage.getItem("userIsLogged")));
     }
 
     LogUserIn(novoEstado) {
-        console.log(novoEstado);
+        console.log("dados do usuario");
+        console.log(JSON.parse(sessionStorage.getItem("user")));
         this.setState(novoEstado);
     }
 
     LogUserOut() {
+        if (sessionStorage.getItem("userIsLogged")) {
+            console.log("Removendo sessão");
+            sessionStorage.removeItem("user");
+            sessionStorage.setItem("userIsLogged", false);
+        }
+        JSON.parse(sessionStorage.getItem("userIsLogged")) ? console.log("esta logado") : console.log("não esta");
         const novoEstado = {
             userIsLogged: false,
-            userId: null,
-            userDados: null
         };
         this.setState(novoEstado);
     }
@@ -46,7 +50,7 @@ class App extends Component {
         return (
             <section>
                 <Router>
-                    <Cabecalho estado={this.state}></Cabecalho>
+                    <Cabecalho logado={this.state.userIsLogged}></Cabecalho>
                     <div className="App">
                         <Switch>
                             <Route path="/addAula" render={ (props) => <AddAula {...props} id={this.state.userId} />} />

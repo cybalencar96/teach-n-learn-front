@@ -19,7 +19,7 @@
     width: 100%;
 }
 
-.topo-perfil h1 {
+.topo-perfil h1, .corpo-perfil h1 {
     font-family: "Roboto Mono", monospace;
     font-size: 50px;
     font-weight: bold;
@@ -29,4 +29,9 @@
     font-family: "Roboto Mono", monospace;
     font-size: 30px;
     font-weight: bold;
+}
+
+.corpo-perfil {
+    display: flex;
+    flex-direction: column;
 }

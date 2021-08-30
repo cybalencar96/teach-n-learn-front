@@ -19,7 +19,7 @@ class Cabecalho extends Component {
                         <Link to="/perfil"> Acese seu perfil</Link>
                     </li>
                     <li>
-                        {this.props.estado.userIsLogged ? <Link to ="/logout">Log out</Link> : <Link to="/login"> Log in</Link>} 
+                        {this.props.logado ? <Link to ="/logout">Log out</Link> : <Link to="/login"> Log in</Link>} 
                     </li>
                 </ul>
             </header>
