@@ -60,7 +60,7 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div className="login">
+            <div className="container-form">
                 <Alerta msg={this.state.msg} />
                 <form onSubmit={this._HandleForm.bind(this)}>
                     <fieldset className="inputCampo">

@@ -1,15 +1,24 @@
 import React, { Component } from "react";
 import DiaSemana from "./DiaSemana";
 import "./estilo.css";
+import lista from "./listaDeDias";
 const axios = require("axios");
 
 class AddAula extends Component {
     constructor(props) {
         super(props);
-        this.listaDias = [];
+        this.novoDia = "monday";
         this.state = {
-            numDias: 0,
-            dias: [],
+            diasLivres: [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday",
+                "saturday",
+                "sunday",
+            ],
+            listaDias: [...lista],
         };
         this.aula = {
             teacherId: this.props.id,
@@ -21,42 +30,62 @@ class AddAula extends Component {
     }
 
     maisDia(evento) {
+        evento.stopPropagation();
         evento.preventDefault();
-        this.listaDias = [
-            ...this.state.dias,
-            {
-                weekday: "Segunda",
-                hasClass: true,
-                startHour: "",
-                endHour: "",
-            },
-        ];
-        const mais = this.state.numDias + 1;
+        const indice = this.state.diasLivres.indexOf(this.novoDia);
+        const cortado = this.state.diasLivres.filter(
+            (item, index) => index !== indice
+        );
+        //O seguinte método de cópia é necessário para que não afete o valor de this.state.listaDias
+        //e consequentemente o de listas permanentemente
+        let atualizacao = JSON.parse(JSON.stringify(this.state.listaDias)); //Cópia estritamente por valor
+        for (let i = 0; i < atualizacao.length; i++) {
+            if (atualizacao[i].weekday === this.novoDia) {
+                atualizacao[i].hasClass = true;
+            }
+        }
         const novoEstado = {
-            numDias: mais,
-            dias: this.listaDias,
+            diasLivres: cortado,
+            listaDias: atualizacao,
         };
         this.setState(novoEstado);
+
+        this.novoDia = this.state.diasLivres[1];
     }
 
     HandleDia(key, att, value) {
-        this.listaDias[key][att] = value;
+        console.log(this.state);
+        if(key !== 10){
+            const atualizacao = [...this.state.listaDias];
+            atualizacao[key][att] = value;
+            const novoEstado = {
+                listaDias: atualizacao,
+            };
+            this.setState(novoEstado);
+        } else {
+
+        }
+    }
+
+    pState() {
+        console.log(this.state);
+    }
+
+    _HandleNovo(evento) {
+        evento.preventDefault();
+        this.novoDia = evento.target.value;
     }
 
     async HandleSubmit(evento) {
         evento.preventDefault();
-        this.aula.dateClass = this.listaDias;
+        this.aula.dateClass = this.state.listaDias;
         console.log(this.aula);
-        await axios
-            .post(
-                "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes",
-                {
-                    data: this.aula,
-                }
-            )
-            .then((res) => {
-                console.log(res.data);
-            });
+        await axios.post(
+            "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes",
+            {body: this.aula}
+        ).then( res => {
+            console.log(res.data);
+        })
     }
 
     _HandleChange(evento) {
@@ -65,10 +94,10 @@ class AddAula extends Component {
                 this.aula.class = evento.target.value;
                 break;
             case "numAlunos":
-                this.aula.maxStudents = evento.target.value;
+                this.aula.maxStudents = Number(evento.target.value);
                 break;
             case "preco":
-                this.aula.price = evento.target.value;
+                this.aula.price = Number(evento.target.value);
                 break;
             default:
                 break;
@@ -104,14 +133,27 @@ class AddAula extends Component {
                         />
                     </fieldset>
                     <label>Dias:</label>
-                    {this.listaDias.map((dia, key) => {
-                        return (
-                            <DiaSemana
-                                handle={this.HandleDia.bind(this)}
-                                index={key}
-                            />
-                        );
+                    {this.state.listaDias.map((dia, key) => {
+                        if (dia.hasClass) {
+                            return (
+                                <DiaSemana
+                                    handle={this.HandleDia.bind(this)}
+                                    index={key}
+                                    dia={dia.weekday}
+                                />
+                            );
+                        }
+                        return("");
                     })}
+                    <select onChange={this._HandleNovo.bind(this)}>
+                        {this.state.diasLivres.map((dia, key) => {
+                            return (
+                                <option key={key} value={dia}>
+                                    {dia}
+                                </option>
+                            );
+                        })}
+                    </select>
                     <button onClick={this.maisDia.bind(this)}>
                         Adicionar dia
                     </button>

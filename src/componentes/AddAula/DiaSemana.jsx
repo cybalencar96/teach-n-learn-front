@@ -3,10 +3,11 @@ import React, { Component } from "react";
 class DiaSemana extends Component {
     
     HandleChange(evento) {
+        evento.stopPropagation();
         switch (evento.target.id) {
-            case "dia":
+            case "deleta":
                 this.props.handle(
-                    this.props.index,
+                    10,
                     "weekday",
                     evento.target.value
                 );
@@ -34,29 +35,7 @@ class DiaSemana extends Component {
         return (
             <fieldset className="dia-semana" key={this.index}>
                 <label>Dia</label>
-                <select id="dia" onChange={this.HandleChange.bind(this)} defaultValue="Segunda">
-                    <option key="1" value="Segunda">
-                        Segunda
-                    </option>
-                    <option key="2" value="Terça">
-                        Terça
-                    </option>
-                    <option key="3" value="Quarta">
-                        Quarta
-                    </option>
-                    <option key="4" value="Quinta">
-                        Quinta
-                    </option>
-                    <option key="5" value="Sexta">
-                        Sexta
-                    </option>
-                    <option key="6" value="Sábado">
-                        Sábado
-                    </option>
-                    <option key="7" value="Domingo">
-                        Domingo
-                    </option>
-                </select>
+                <input id="dia" value={this.props.dia} readOnly/>
                 <label>Começo</label>
                 <input
                     id="comeco"
@@ -69,6 +48,7 @@ class DiaSemana extends Component {
                     type="time"
                     onChange={this.HandleChange.bind(this)}
                 />
+                <button id="deleta" type="button" onClick={this.HandleChange.bind(this)}>Deletar</button>
             </fieldset>
         );
     }

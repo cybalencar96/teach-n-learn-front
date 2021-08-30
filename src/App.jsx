@@ -22,7 +22,7 @@ class App extends Component {
     }
 
     LogUserIn(novoEstado) {
-        console.log("Login");
+        console.log(novoEstado);
         this.setState(novoEstado);
     }
 

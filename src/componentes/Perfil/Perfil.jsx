@@ -6,7 +6,6 @@ import "./estilo.css";
 class Perfil extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.estado);
         this.logado = this.props.estado.userIsLogged;
         this.idUsuario = this.props.estado.userId;
         //Se usuário estiver logado, guarda as informacoes existentes,
