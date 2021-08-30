@@ -7,9 +7,9 @@ import Home from "./componentes/Home";
 import "./index.css";
 import Cabecalho from "./componentes/Cabecalho/Cabecalho";
 import EditProfile from "./componentes/editProfile";
-import Aulas from "./componentes/Aulas";
 import SignIn from "./componentes/SignIn";
 import AddAula from "./componentes/AddAula/AddAula";
+import BuscaAulas from "./componentes/BuscaAulas/BuscaAulas";
 
 class App extends Component {
     constructor() {
@@ -17,12 +17,9 @@ class App extends Component {
         this.state = {
             userIsLogged: JSON.parse(sessionStorage.getItem("userIsLogged")),
         };
-        console.log(JSON.parse(sessionStorage.getItem("userIsLogged")));
     }
 
     LogUserIn(novoEstado) {
-        console.log("dados do usuario");
-        console.log(JSON.parse(sessionStorage.getItem("user")));
         this.setState(novoEstado);
     }
 
@@ -54,7 +51,7 @@ class App extends Component {
                     <div className="App">
                         <Switch>
                             <Route path="/addAula" render={ (props) => <AddAula {...props} id={this.state.userId} />} />
-                            <Route path="/aulas" component={Aulas} />
+                            <Route path="/BuscaAulas" component={BuscaAulas} />
                             <Route
                                 path="/editProfile"
                                 exact

@@ -13,7 +13,7 @@ class Cabecalho extends Component {
                         </h1>
                     </li>
                     <li>
-                        <Link to="/aulas"> Aulas</Link>
+                        <Link to="/BuscaAulas"> Aulas</Link>
                     </li>
                     <li>
                         <Link to="/perfil"> Acese seu perfil</Link>

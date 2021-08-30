@@ -28,11 +28,11 @@ class Aulas extends Component {
                     {this.props.lista.map( (aula, index) =>{
                         return(
                             <div className="card-aula" key={index}>
-                                <h1> {aula.data.class} </h1>
-                                <h2>Maximo de estudantes: {aula.data.maxStudents}</h2>
-                                <h2>Preço: {aula.data.price}</h2>
+                                <h1> {aula.class} </h1>
+                                <h2>Maximo de estudantes: {aula.maxStudents}</h2>
+                                <h2>Preço: {aula.price}</h2>
                                 <div className="dias-semana-card">
-                                    {aula.data.dateClass.map( (dia, index) => {
+                                    {aula.dateClass.map( (dia, index) => {
                                         if(dia.hasClass){
                                             return(
                                                 <section key={index}>

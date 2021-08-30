@@ -40,8 +40,8 @@ class Perfil extends Component {
             }
             axios.all(this.gets).then(
                 axios.spread((...responses) => {
-                    console.log("Pegou aulas");
-                    this.setState({ teaching: responses });
+                    const envio = responses.map( item => item.data);
+                    this.setState({ teaching: envio });
                 })
             );
         }
