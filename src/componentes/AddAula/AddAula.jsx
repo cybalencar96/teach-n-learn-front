@@ -19,6 +19,7 @@ class AddAula extends Component {
                 "sunday",
             ],
             listaDias: [...lista],
+            botao: "Cadastrar"
         };
         const id = JSON.parse(sessionStorage.getItem("user")).id;
         this.aula = {
@@ -80,7 +81,7 @@ class AddAula extends Component {
     async HandleSubmit(evento) {
         evento.preventDefault();
         this.aula.dateClass = this.state.listaDias;
-        console.log(this.aula);
+        this.setState({botao: "Cadastrando..."})
         await axios.post(
             "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes",
             {body: this.aula}
@@ -158,7 +159,7 @@ class AddAula extends Component {
                     <button onClick={this.maisDia.bind(this)}>
                         Adicionar dia
                     </button>
-                    <input type="submit" value="Enviar" />
+                    <input type="submit" value={this.state.botao} />
                 </form>
             </div>
         );

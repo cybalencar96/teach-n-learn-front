@@ -22,15 +22,12 @@ class Aulas extends Component {
     } */
 
     render() {
-        console.log("Renderizou lista de aulas com essa lista:");
-        console.log(this.props.lista);
         return (
             <div className="buscaprincipal">
                 <div className="lista-cards">
                     {this.props.lista.map( (aula, index) =>{
                         return(
                             <div className="card-aula" key={index}>
-                                {console.log(aula.data.class)}
                                 <h1> {aula.data.class} </h1>
                                 <h2>Maximo de estudantes: {aula.data.maxStudents}</h2>
                                 <h2>Preço: {aula.data.price}</h2>
@@ -44,7 +41,7 @@ class Aulas extends Component {
                                                 </section>
                                             )
                                         }
-                                        return("")
+                                        return("");
                                     })}
                                 </div>
                             </div>
