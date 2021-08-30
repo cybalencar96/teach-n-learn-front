@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ResultadosBusca from './ResultadosBusca';
 
 class Home extends Component {
   constructor(props){
@@ -12,16 +11,7 @@ class Home extends Component {
 
   _HandleBusca(evento){
     evento.preventDefault();
-    //Inserir fetch do banco aqui no lugar da aula
-    const aula = {
-      "class": this.texto,
-      "maxStudents": 20,
-      "price": 60
-    }
-    const novoEstado = {
-      aulas: [...this.state.aulas, aula]
-    }
-    this.setState(novoEstado);
+    this.props.history.push("/BuscaAulas?search="+this.texto);
   }
 
   _HandleTexto(evento){
@@ -37,7 +27,6 @@ class Home extends Component {
           <input type="text" placeholder="Procure aqui por uma aula" onChange={this._HandleTexto.bind(this)}></input>
           <input type="submit" value="Vai"></input>
         </form>
-        <ResultadosBusca aulas={this.state.aulas}/>
       </div> 
       <div className="corpoHome">   
         <h1>O portal para encontrar conhecimento!</h1>
