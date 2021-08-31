@@ -30,11 +30,12 @@ class Home extends Component {
       </div> 
       <div className="corpo-home">   
         <h1>Conecte o seu conhecimento</h1>
+        <img className="main-img-home"src="./assets/Logo-home.png" alt="home"/>
         <h2>Uma plataforma feita para professores e alunos</h2>
       </div>
     </div>
     );
   }
 }
- 
+ //import "../../public/assets/"
 export default Home;

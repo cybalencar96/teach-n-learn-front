@@ -6,11 +6,14 @@ class Cabecalho extends Component {
     render() {
         return ( 
             <header className="cabecalho">
+                <div>
+                    <h1>
+                        <Link to="/"> Teach-n-learn</Link>
+                    </h1>
+                </div>
                 <ul>
                     <li>
-                        <h1>
-                            <Link to="/"> Teach-n-learn</Link>
-                        </h1>
+                        
                     </li>
                     <li>
                         <Link to="/BuscaAulas"> Aulas</Link>
