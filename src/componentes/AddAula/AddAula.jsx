@@ -56,7 +56,6 @@ class AddAula extends Component {
     }
 
     HandleDia(key, att, value) {
-        console.log(this.state);
         if(key !== 10){
             const atualizacao = [...this.state.listaDias];
             atualizacao[key][att] = value;
@@ -67,10 +66,6 @@ class AddAula extends Component {
         } else {
 
         }
-    }
-
-    pState() {
-        console.log(this.state);
     }
 
     _HandleNovo(evento) {

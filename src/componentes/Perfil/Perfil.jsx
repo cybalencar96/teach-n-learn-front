@@ -56,7 +56,6 @@ class Perfil extends Component {
                 axios.all(this.getsL).then(
                     axios.spread((...res) => {
                         this.learning = res.map((item) => item.data);
-                        console.log(this.learning);
                         this.setState({
                             learning: this.learning,
                             teaching: this.teaching,
