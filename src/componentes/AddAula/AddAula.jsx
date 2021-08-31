@@ -86,7 +86,10 @@ class AddAula extends Component {
             "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes",
             {body: this.aula}
         ).then( res => {
-            console.log(res.data);
+            const usuario = JSON.parse(sessionStorage.getItem("user"));
+            usuario.teaching.push(res.data.insertedId);
+            sessionStorage.setItem("user", JSON.stringify(usuario));
+            this.props.history.push("/perfil");
         })
     }
 

@@ -1,14 +1,13 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Aulas from "../Aulas";
+import Aulas from "../CardAulas/Aulas";
 import "./estilo.css";
 
 class Perfil extends Component {
     constructor(props) {
         super(props);
-        this.state = {teaching:[]}
-        this.gets = [];
+        this.state = {teaching: [], learning: []}
         this.teaching = [];
         this.learning = [];
         this.logado = JSON.parse(sessionStorage.getItem("userIsLogged"));
@@ -24,26 +23,37 @@ class Perfil extends Component {
             this.foto = usuario.basicInfo.profileImg;
             this.teachingIds = usuario.teaching;
             this.learningIds = usuario.learning;
+            
+            //Pega as aulas que está lecionando
+            
+            this.getsT = [];
             for (let i = 0; i < this.teachingIds.length; i++) {
-                this.gets.push(
+                this.getsT.push(
                     axios.get(
                         "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
                             this.teachingIds[i]
                     )
                 );
             }
+            axios.all(this.getsT).then(
+                axios.spread((...responses) => {
+                    const lecionando = responses.map( item => item.data);
+                    this.setState({ teaching: lecionando });
+                })
+            );
+            /* this.getsL = [];
             for (let i = 0; i < this.learningIds.length; i++) {
-                this.urls.push(
+                this.getsL.push(
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
                         this.learningIds[i]
                 );
             }
-            axios.all(this.gets).then(
+            axios.all(this.getsL).then(
                 axios.spread((...responses) => {
-                    const envio = responses.map( item => item.data);
-                    this.setState({ teaching: envio });
+                    const assistindo = responses.map((item) => item.data);
+                    this.setState({ learning: assistindo });
                 })
-            );
+            ); */
         }
     }
 
@@ -52,6 +62,7 @@ class Perfil extends Component {
         if (!this.logado) {
             return <Redirect to="/login" />;
         }
+        console.log(this.state);
         return (
             <div>
                 <div className="topo-perfil">
@@ -73,6 +84,8 @@ class Perfil extends Component {
                     <button>
                         <Link to="/addAula">Adicionar uma aula</Link>
                     </button>
+                    <h1>Suas aulas como aluno: </h1>
+                    {<Aulas lista={this.state.learning} />}
                 </div>
             </div>
         );

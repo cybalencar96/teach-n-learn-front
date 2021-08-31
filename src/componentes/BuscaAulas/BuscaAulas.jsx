@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
-import Aulas from "../Aulas";
+import Aulas from "../CardAulas/Aulas";
 
 class BuscaAulas extends Component {
     state = { lista: [] };
