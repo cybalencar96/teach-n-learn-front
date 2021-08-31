@@ -12,8 +12,7 @@ class BtnDelete extends Component {
                 if (res.data.status === 200){
                     console.log("Deletado!");
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
-                    aulas.teaching.splice(aulas.teaching.indexOf(this.props.id), 1);
-                    console.log(aulas);
+                    aulas.teaching.splice(aulas.teaching.indexOf(this.props.id), 1); //deleta a aula da lista de "teaching"
                     sessionStorage.setItem("user", JSON.stringify(aulas));
                     this.props.update(aulas.teaching);
                 } else {
@@ -40,16 +39,16 @@ class BtnBook extends Component {
         axios
             .post(
                 "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
-                    this.props.classId +
+                    this.props.data.classId +
                     "/book",
                 {
-                    body: { userId: this.props.userId },
+                    body: { userId: this.props.data.userId},
                 }
             )
             .then((res) => {
                 if (res.data.status === 200) {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
-                    aulas.learning.push(this.props.classId);
+                    aulas.learning.push(this.props.data.classId);
                     sessionStorage.setItem("user", JSON.stringify(aulas));
                     this.props.update(aulas.learning);
                 } else {
@@ -71,4 +70,39 @@ class BtnBook extends Component {
     }
 }
 
-export {BtnDelete, BtnBook}
+class BtnUnbook extends Component {
+    _Unbook() {
+        axios
+            .post(
+                "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
+                    this.props.data.classId +
+                    "/unbook",
+                {
+                    body: { userId: this.props.data.userId },
+                }
+            )
+            .then((res) => {
+                if (res.data.status === 200) {
+                    const aulas = JSON.parse(sessionStorage.getItem("user"));
+                    aulas.learning.splice(aulas.learning.indexOf(this.props.data.classId),1);
+                    sessionStorage.setItem("user", JSON.stringify(aulas));
+                    this.props.update(aulas.learning);
+                } else {
+                    console.error(res.data);
+                }
+            });
+    }
+
+    render() {
+        return (
+            <button
+                type="button"
+                className="btn-negativo"
+                onClick={this._Unbook.bind(this)}
+            >
+                Desinscrever-se
+            </button>
+        );
+    }
+}
+export {BtnDelete, BtnBook, BtnUnbook}
