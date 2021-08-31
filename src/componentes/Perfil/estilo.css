@@ -1,0 +1,37 @@
+.topo-perfil {
+    display: flex;
+    padding: auto;
+}
+
+.topo-perfil-foto {
+    width: 25%;
+}
+
+.topo-perfil-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.topo-perfil-foto img {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.topo-perfil h1, .corpo-perfil h1 {
+    font-family: "Roboto Mono", monospace;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.topo-perfil h2 {
+    font-family: "Roboto Mono", monospace;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.corpo-perfil {
+    display: flex;
+    flex-direction: column;
+}

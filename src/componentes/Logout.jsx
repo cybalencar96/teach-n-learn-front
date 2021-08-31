@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 class Logout extends Component {
-
-    HandleLogout(){
-        console.log("Logout acontece");
+    constructor (props){
+        super(props);
         this.props.estado();
     }
 
     render() {
-        this.HandleLogout();
         return (
             <Redirect to="/" />
          );

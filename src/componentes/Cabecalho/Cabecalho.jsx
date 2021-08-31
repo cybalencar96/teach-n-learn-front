@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import "./estilo.css"
 
 class Cabecalho extends Component {
     render() {
@@ -12,13 +13,13 @@ class Cabecalho extends Component {
                         </h1>
                     </li>
                     <li>
-                        <Link to="/aulas"> Aulas</Link>
+                        <Link to="/BuscaAulas"> Aulas</Link>
                     </li>
                     <li>
                         <Link to="/perfil"> Acese seu perfil</Link>
                     </li>
                     <li>
-                        {this.props.estado.userIsLogged ? <Link to ="/logout">Log out</Link> : <Link to="/login"> Log in</Link>} 
+                        {this.props.logado ? <Link to ="/logout">Log out</Link> : <Link to="/login"> Log in</Link>} 
                     </li>
                 </ul>
             </header>
