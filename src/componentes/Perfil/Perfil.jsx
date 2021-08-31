@@ -35,25 +35,29 @@ class Perfil extends Component {
                     )
                 );
             }
-            axios.all(this.getsT).then(
-                axios.spread((...responses) => {
-                    const lecionando = responses.map( item => item.data);
-                    this.setState({ teaching: lecionando });
-                })
-            );
-            /* this.getsL = [];
+            if(this.getsT){
+                axios.all(this.getsT).then(
+                    axios.spread((...responses) => {
+                        const lecionando = responses.map( item => item.data);
+                        this.setState({ teaching: lecionando });
+                    })
+                );
+            }
+            this.getsL = [];
             for (let i = 0; i < this.learningIds.length; i++) {
                 this.getsL.push(
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
                         this.learningIds[i]
                 );
             }
-            axios.all(this.getsL).then(
-                axios.spread((...responses) => {
-                    const assistindo = responses.map((item) => item.data);
-                    this.setState({ learning: assistindo });
-                })
-            ); */
+            if(this.getL){
+                axios.all(this.getsL).then(
+                    axios.spread((...res) => {
+                        const assistindo = res.map((item) => item.data);
+                        this.setState({ learning: assistindo });
+                    })
+                );
+            }
         }
     }
 
@@ -62,7 +66,6 @@ class Perfil extends Component {
         if (!this.logado) {
             return <Redirect to="/login" />;
         }
-        console.log(this.state);
         return (
             <div>
                 <div className="topo-perfil">
