@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../CardAulas/estilo.css"
 
 class DiaSemana extends Component {
     
@@ -35,7 +36,7 @@ class DiaSemana extends Component {
         return (
             <fieldset className="dia-semana" key={this.index}>
                 <label>Dia</label>
-                <input id="dia" value={this.props.dia} readOnly/>
+                <input id="dia" value={this.props.dia} readOnly />
                 <label>Começo</label>
                 <input
                     id="comeco"
@@ -48,7 +49,15 @@ class DiaSemana extends Component {
                     type="time"
                     onChange={this.HandleChange.bind(this)}
                 />
-                <button id="deleta" type="button" onClick={this.HandleChange.bind(this)}>Deletar</button>
+                <button
+                    id="deleta"
+                    type="button"
+                    onClick={this.HandleChange.bind(this)}
+                    value={this.props.dia}
+                    className="btn-negativo"
+                >
+                    Deletar
+                </button>
             </fieldset>
         );
     }

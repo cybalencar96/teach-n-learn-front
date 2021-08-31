@@ -33,20 +33,3 @@
     padding: 10px;
 }
 
-.btn-negativo {
-    border-radius: 5px;
-    border: none;
-    background-color: rgb(237, 28, 36);
-    color: white;
-    margin: 5px;
-    padding: 5px;
-}
-
-.btn-positivo {
-    border-radius: 5px;
-    border: none;
-    background-color: rgb(0, 166, 86);
-    color: white;
-    margin: 5px;
-    padding: 5px;
-}
