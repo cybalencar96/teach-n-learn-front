@@ -45,8 +45,7 @@ class Login extends Component {
                     const novoEstado = {
                         userIsLogged: true,
                     };
-                    console.log(res.data.userData);
-                    this.props.LogUserIn(novoEstado);
+                    this.props.LogUser(novoEstado);
                     sessionStorage.setItem("userIsLogged", JSON.stringify(true));
                     sessionStorage.setItem("user", JSON.stringify(res.data.userData));
                     this.props.history.push("/"); //Redireciona para a Home

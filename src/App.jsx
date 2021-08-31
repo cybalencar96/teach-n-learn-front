@@ -19,20 +19,7 @@ class App extends Component {
         };
     }
 
-    LogUserIn(novoEstado) {
-        this.setState(novoEstado);
-    }
-
-    LogUserOut() {
-        if (sessionStorage.getItem("userIsLogged")) {
-            console.log("Removendo sessão");
-            sessionStorage.removeItem("user");
-            sessionStorage.setItem("userIsLogged", false);
-        }
-        JSON.parse(sessionStorage.getItem("userIsLogged")) ? console.log("esta logado") : console.log("não esta");
-        const novoEstado = {
-            userIsLogged: false,
-        };
+    LogUser(novoEstado) { //Necessário para renderizar o cabeçalho novamente após login/logout
         this.setState(novoEstado);
     }
 
@@ -50,34 +37,19 @@ class App extends Component {
                     <Cabecalho logado={this.state.userIsLogged}></Cabecalho>
                     <div className="App">
                         <Switch>
-                            <Route path="/addAula" render={ (props) => <AddAula {...props} id={this.state.userId} />} />
+                            <Route path="/addAula" component={AddAula} />
                             <Route path="/BuscaAulas" component={BuscaAulas} />
-                            <Route
-                                path="/editProfile"
-                                exact
-                                render={(props) => (
-                                    <EditProfile
-                                        {...props}
-                                        estado={this.state}
-                                        editaPerfil={this.EditP.bind(this)}
-                                    />
-                                )}
-                            />
-                            <Route
-                                path="/perfil"
-                                exact
-                                render={(props) => (
-                                    <Perfil {...props} estado={this.state} />
-                                )}
-                            />
+                            <Route path="/editProfile" exact component={EditProfile} />
+                            <Route path="/perfil" exact component={Perfil} />
                             <Route path="/" exact component={Home} />
+                            <Route path="/signin" component={SignIn} />
                             <Route
                                 path="/login"
                                 exact
                                 render={(props) => (
                                     <Login
                                         {...props}
-                                        LogUserIn={this.LogUserIn.bind(this)}
+                                        LogUser={this.LogUser.bind(this)}
                                     />
                                 )}
                             />
@@ -87,11 +59,10 @@ class App extends Component {
                                 render={(props) => (
                                     <Logout
                                         {...props}
-                                        estado={this.LogUserOut.bind(this)}
+                                        LogUser={this.LogUser.bind(this)}
                                     />
                                 )}
                             />
-                            <Route path="/signin" component={SignIn} />
                         </Switch>
                     </div>
                 </Router>

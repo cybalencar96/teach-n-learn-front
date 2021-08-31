@@ -26,6 +26,7 @@ class EditProfile extends Component {
                 sessionStorage.setItem("user", JSON.stringify(this.dados));
                 this.props.history.push("/perfil");
             } else {
+                alert("Erro ao enviar edição");
                 console.error(res.data);
             }
         });

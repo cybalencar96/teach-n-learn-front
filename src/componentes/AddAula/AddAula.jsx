@@ -18,7 +18,7 @@ class AddAula extends Component {
                 "saturday",
                 "sunday",
             ],
-            listaDias: [...lista],
+            listaDias: lista.slice(),
             botao: "Cadastrar"
         };
         const id = JSON.parse(sessionStorage.getItem("user")).id;
@@ -39,7 +39,7 @@ class AddAula extends Component {
             (item, index) => index !== indice
         );
         //O seguinte método de cópia é necessário para que não afete o valor de this.state.listaDias
-        //e consequentemente o de listas permanentemente
+        //e consequentemente o de listas permanentemente. Nenhum outro método funcionou
         let atualizacao = JSON.parse(JSON.stringify(this.state.listaDias)); //Cópia estritamente por valor
         for (let i = 0; i < atualizacao.length; i++) {
             if (atualizacao[i].weekday === this.novoDia) {
@@ -56,8 +56,7 @@ class AddAula extends Component {
     }
 
     HandleDia(key, att, value) {
-        console.log(this.state);
-        if(key !== 10){
+        if(key !== 10){ //Código 10 significa delete
             const atualizacao = [...this.state.listaDias];
             atualizacao[key][att] = value;
             const novoEstado = {
@@ -65,12 +64,20 @@ class AddAula extends Component {
             };
             this.setState(novoEstado);
         } else {
-
+            let atualizacao = JSON.parse(
+                JSON.stringify(this.state.listaDias)
+            );
+            for (let i = 0; i < atualizacao.length; i++) {
+                if (atualizacao[i].weekday === value) {
+                    atualizacao[i].hasClass = false;
+                }
+            }
+            const novoEstado = {
+                diasLivres: [...this.state.diasLivres, value],
+                listaDias: atualizacao,
+            };
+            this.setState(novoEstado);
         }
-    }
-
-    pState() {
-        console.log(this.state);
     }
 
     _HandleNovo(evento) {
@@ -137,7 +144,7 @@ class AddAula extends Component {
                             onChange={this._HandleChange.bind(this)}
                         />
                     </fieldset>
-                    <label>Dias:</label>
+                    <h3>Dias:</h3>
                     {this.state.listaDias.map((dia, key) => {
                         if (dia.hasClass) {
                             return (
@@ -162,7 +169,7 @@ class AddAula extends Component {
                     <button onClick={this.maisDia.bind(this)}>
                         Adicionar dia
                     </button>
-                    <input type="submit" value={this.state.botao} />
+                    <input type="submit" value={this.state.botao} className="btn-positivo" />
                 </form>
             </div>
         );

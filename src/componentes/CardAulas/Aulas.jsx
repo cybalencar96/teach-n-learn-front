@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {BtnBook, BtnDelete} from "./Botoes";
+import {BtnBook, BtnDelete, BtnUnbook} from "./Botoes";
 import "./estilo.css"
 
 class Aulas extends Component {
@@ -23,18 +23,35 @@ class Aulas extends Component {
     }
 
     render() {
-        if (JSON.stringify(this.state.aulas) !== JSON.stringify(this.props.lista)) {
-            this.setState({
-                aulas: [...this.props.lista],
-            });
-        }
         return (
             <div className="lista-cards">
                 {this.props.lista.map((aula, index) => {
                     if (aula.teacherId === JSON.parse(sessionStorage.getItem("user")).id) {
-                        this.button = [<BtnDelete id={aula._id} update={this.UpdateF.bind(this)} /> ]
+                        this.button = [<BtnDelete id={aula._id} update={this.UpdateF.bind(this)} key={index}/> ]
                     } else {
-                        this.button = [<BtnBook classId={aula._id} userId={JSON.parse(sessionStorage.getItem("user")).id} update={this.UpdateF.bind(this)} /> ]
+                        const dados = {
+                            userId: JSON.parse(sessionStorage.getItem("user")).id,
+                            classId: aula._id,
+                        };
+                        if(JSON.parse(
+                                sessionStorage.getItem("user")).learning.includes(aula._id)){
+                                    this.button = [
+                                        <BtnUnbook
+                                            data={dados}
+                                            update={this.UpdateF.bind(this)}
+                                            key={index}
+                                        />,
+                                    ];
+                                } else {
+                                    this.button = [
+                                        <BtnBook
+                                            data={dados}
+                                            update={this.UpdateF.bind(this)}
+                                            key={index}
+                                        />,
+                                    ];
+                                }
+                        
                     }
                     return (
                         <div className="card-aula" key={index}>

@@ -27,40 +27,44 @@ class Perfil extends Component {
             //Pega as aulas que está lecionando
             
             this.getsT = [];
-            for (let i = 0; i < this.teachingIds.length; i++) {
-                this.getsT.push(
-                    axios.get(
+            for (let i = 0; i < this.teachingIds.length; i++) { //Cria um array de requisições com todas as urls das aulas lecionadas
+                this.getsT.push(axios.get(
                         "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
                             this.teachingIds[i]
                     )
                 );
             }
             if(this.getsT){
+                //evita fazer requisições caso não existam aulas
                 axios.all(this.getsT).then(
                     axios.spread((...responses) => {
-                        const lecionando = responses.map( item => item.data);
-                        this.setState({ teaching: lecionando });
+                        this.teaching = responses.map((item) => item.data);
+                        this.setState({learning: this.learning, teaching: this.teaching});
                     })
                 );
             }
+            
+            //Pega as aulas que está assistindo
             this.getsL = [];
-            for (let i = 0; i < this.learningIds.length; i++) {
-                this.getsL.push(
+            for (let i = 0; i < this.learningIds.length; i++) { //Cria um array de requisições de aulas assistidas
+                this.getsL.push(axios.get(
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
                         this.learningIds[i]
-                );
+                ));
             }
-            if(this.getL){
+            if(this.getsL){ //evita fazer requisições caso não existam aulas
                 axios.all(this.getsL).then(
                     axios.spread((...res) => {
-                        const assistindo = res.map((item) => item.data);
-                        this.setState({ learning: assistindo });
+                        this.learning = res.map((item) => item.data);
+                        this.setState({
+                            learning: this.learning,
+                            teaching: this.teaching,
+                        });
                     })
                 );
             }
         }
     }
-
 
     render() {
         if (!this.logado) {
