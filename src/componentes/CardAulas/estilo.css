@@ -1,0 +1,52 @@
+.lista-cards {
+    background-color: rgb(109, 110, 113);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-aula {
+    border: rgb(0, 0, 0) 5px;
+    background-color: white;
+    margin: 10px;
+    padding: 5px;
+    font-family: "Inter", sans-serif;
+    border-radius: 5px;
+}
+
+.card-aula h1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.card-aula h2 {
+    font-size: 20px;
+}
+
+.dias-semana-card {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.dias-semana-card section {
+    border-right: black solid;
+    padding: 10px;
+}
+
+.btn-negativo {
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(237, 28, 36);
+    color: white;
+    margin: 5px;
+    padding: 5px;
+}
+
+.btn-positivo {
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(0, 166, 86);
+    color: white;
+    margin: 5px;
+    padding: 5px;
+}

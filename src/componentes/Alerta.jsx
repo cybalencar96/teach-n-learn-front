@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import alertas from "./listaAlertas";
+import alertas from "../Extras/listaAlertas";
 
 class Alerta extends Component {
     constructor (props) {
