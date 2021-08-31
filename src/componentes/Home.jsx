@@ -28,8 +28,9 @@ class Home extends Component {
           <input type="submit" value="Vai"></input>
         </form>
       </div> 
-      <div className="corpoHome">   
-        <h1>O portal para encontrar conhecimento!</h1>
+      <div className="corpo-home">   
+        <h1>Conecte o seu conhecimento</h1>
+        <h2>Uma plataforma feita para professores e alunos</h2>
       </div>
     </div>
     );

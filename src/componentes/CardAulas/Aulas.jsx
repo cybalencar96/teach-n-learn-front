@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import {BtnBook, BtnDelete, BtnUnbook} from "./Botoes";
-import "./estilo.css"
+import { BtnBook, BtnDelete, BtnUnbook } from "./Botoes";
+import "./estilo.css";
 
 class Aulas extends Component {
     constructor(props) {
         super(props);
-        if(!this.props.lista){
+        if (!this.props.lista) {
             this.state = {
                 aulas: null,
             };
@@ -14,44 +14,55 @@ class Aulas extends Component {
                 aulas: [...this.props.lista],
             };
         }
-        
+        if (JSON.parse(sessionStorage.getItem("userIsLogged"))) {
+            this.user = JSON.parse(sessionStorage.getItem("user"));
+        } else {
+            this.user = {
+                id: null,
+                learning: [],
+            };
+        }
         this.button = [];
     }
 
-    UpdateF(novaLista){
-        this.setState({aulas: novaLista});
+    UpdateF(novaLista) {
+        this.setState({ aulas: novaLista });
     }
 
     render() {
         return (
             <div className="lista-cards">
                 {this.props.lista.map((aula, index) => {
-                    if (aula.teacherId === JSON.parse(sessionStorage.getItem("user")).id) {
-                        this.button = [<BtnDelete id={aula._id} update={this.UpdateF.bind(this)} key={index}/> ]
+                    if (aula.teacherId === this.user.id) {
+                        this.button = [
+                            <BtnDelete
+                                id={aula._id}
+                                update={this.UpdateF.bind(this)}
+                                key={index}
+                            />,
+                        ];
                     } else {
                         const dados = {
-                            userId: JSON.parse(sessionStorage.getItem("user")).id,
+                            userId: this.user.id,
                             classId: aula._id,
                         };
-                        if(JSON.parse(
-                                sessionStorage.getItem("user")).learning.includes(aula._id)){
-                                    this.button = [
-                                        <BtnUnbook
-                                            data={dados}
-                                            update={this.UpdateF.bind(this)}
-                                            key={index}
-                                        />,
-                                    ];
-                                } else {
-                                    this.button = [
-                                        <BtnBook
-                                            data={dados}
-                                            update={this.UpdateF.bind(this)}
-                                            key={index}
-                                        />,
-                                    ];
-                                }
-                        
+                        if (this.user.learning.includes(aula._id)) {
+                            this.button = [
+                                <BtnUnbook
+                                    data={dados}
+                                    update={this.UpdateF.bind(this)}
+                                    key={index}
+                                />,
+                            ];
+                        } else {
+                            this.button = [
+                                <BtnBook
+                                    data={dados}
+                                    update={this.UpdateF.bind(this)}
+                                    key={index}
+                                />,
+                            ];
+                        }
                     }
                     return (
                         <div className="card-aula" key={index}>

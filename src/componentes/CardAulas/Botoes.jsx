@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class BtnDelete extends Component {
     _Delete() {
@@ -36,6 +37,7 @@ class BtnDelete extends Component {
 
 class BtnBook extends Component {
     _Book() {
+        console.log()
         axios
             .post(
                 "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
@@ -58,13 +60,17 @@ class BtnBook extends Component {
     }
 
     render() {
-        return (
+        return JSON.parse(sessionStorage.getItem("userIsLogged")) ? (
             <button
                 type="button"
                 className="btn-positivo"
                 onClick={this._Book.bind(this)}
             >
                 Inscrever-se
+            </button>
+        ) : (
+            <button>
+                <Link to="/login">Faça login para se inscrever!</Link>
             </button>
         );
     }
