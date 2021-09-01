@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Aulas from "../CardAulas/Aulas";
 
 class BuscaAulas extends Component {
-    state = { lista: [] };
+    state = { lista: [], fetched: false };
     constructor(props) {
         super(props);
         const urlParams = new URLSearchParams(window.location.search);
@@ -14,7 +14,7 @@ class BuscaAulas extends Component {
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes"
                 )
                 .then((res) => {
-                    this.setState({ lista: res.data });
+                    this.setState({ lista: res.data, fetched: true });
                 });
         } else {
             axios
@@ -22,11 +22,19 @@ class BuscaAulas extends Component {
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/search?name=" +
                         search
                 )
-                .then((res) => this.setState({ lista: res.data }));
+                .then((res) => this.setState({ lista: res.data, fetched: true }));
         }
     }
     render() {
-        return <Aulas lista={this.state.lista} />;
+        return (
+            <div>
+                {this.state.fetched ? (
+                    <Aulas lista={this.state.lista} />
+                ) : (
+                    <h2>Carregando</h2>
+                )}
+            </div>
+        );
     }
 }
 

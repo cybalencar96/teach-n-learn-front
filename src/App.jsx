@@ -37,11 +37,11 @@ class App extends Component {
                     <Cabecalho logado={this.state.userIsLogged}></Cabecalho>
                     <div className="App">
                         <Switch>
+                            <Route path="/" exact component={Home} />
                             <Route path="/addAula" component={AddAula} />
                             <Route path="/BuscaAulas" component={BuscaAulas} />
                             <Route path="/editProfile" exact component={EditProfile} />
                             <Route path="/perfil" exact component={Perfil} />
-                            <Route path="/" exact component={Home} />
                             <Route path="/signin" component={SignIn} />
                             <Route
                                 path="/login"

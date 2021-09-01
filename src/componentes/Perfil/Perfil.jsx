@@ -7,7 +7,7 @@ import "./estilo.css";
 class Perfil extends Component {
     constructor(props) {
         super(props);
-        this.state = {teaching: [], learning: []}
+        this.state = {teaching: [], learning: [], fetched: false}
         this.teaching = [];
         this.learning = [];
         this.logado = JSON.parse(sessionStorage.getItem("userIsLogged"));
@@ -39,7 +39,7 @@ class Perfil extends Component {
                 axios.all(this.getsT).then(
                     axios.spread((...responses) => {
                         this.teaching = responses.map((item) => item.data);
-                        this.setState({learning: this.learning, teaching: this.teaching});
+                        this.setState({learning: this.learning, teaching: this.teaching, fetched: true});
                     })
                 );
             }
@@ -87,12 +87,20 @@ class Perfil extends Component {
                 </div>
                 <div className="corpo-perfil">
                     <h1>Suas aulas como professor: </h1>
-                    {<Aulas lista={this.state.teaching} />}
+                    {this.state.fetched ? (
+                        <Aulas lista={this.state.teaching} />
+                    ) : (
+                        <h2>Carregando</h2>
+                    )}
                     <button>
                         <Link to="/addAula">Adicionar uma aula</Link>
                     </button>
                     <h1>Suas aulas como aluno: </h1>
-                    {<Aulas lista={this.state.learning} />}
+                    {this.state.fetched ? (
+                        <Aulas lista={this.state.learning} />
+                    ) : (
+                        <h2>Carregando</h2>
+                    )}
                 </div>
             </div>
         );

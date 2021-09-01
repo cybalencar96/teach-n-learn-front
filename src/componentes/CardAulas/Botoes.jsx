@@ -92,6 +92,7 @@ class BtnUnbook extends Component {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
                     aulas.learning.splice(aulas.learning.indexOf(this.props.data.classId),1);
                     sessionStorage.setItem("user", JSON.stringify(aulas));
+                    console.log(aulas);
                     this.props.update(aulas.learning);
                 } else {
                     console.error(res.data);

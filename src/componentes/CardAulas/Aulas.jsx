@@ -5,15 +5,7 @@ import "./estilo.css";
 class Aulas extends Component {
     constructor(props) {
         super(props);
-        if (!this.props.lista) {
-            this.state = {
-                aulas: null,
-            };
-        } else {
-            this.state = {
-                aulas: [...this.props.lista],
-            };
-        }
+        this.state = {aulas: [...this.props.lista]}
         if (JSON.parse(sessionStorage.getItem("userIsLogged"))) {
             this.user = JSON.parse(sessionStorage.getItem("user"));
         } else {
@@ -26,13 +18,15 @@ class Aulas extends Component {
     }
 
     UpdateF(novaLista) {
-        this.setState({ aulas: novaLista });
+        console.log("Nova lista: ");
+        console.log(novaLista);
+        this.setState({ aulas: novaLista });    
     }
 
     render() {
         return (
             <div className="lista-cards">
-                {this.props.lista.map((aula, index) => {
+                {this.state.aulas.map((aula, index) => {
                     if (aula.teacherId === this.user.id) {
                         this.button = [
                             <BtnDelete
