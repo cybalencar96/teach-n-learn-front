@@ -7,7 +7,7 @@ import "./estilo.css";
 class Perfil extends Component {
     constructor(props) {
         super(props);
-        this.state = {teaching: [], learning: [], fetched: false}
+        this.state = {teaching: [], learning: [], fetchedT: false, fetchedL: false}
         this.teaching = [];
         this.learning = [];
         this.logado = JSON.parse(sessionStorage.getItem("userIsLogged"));
@@ -39,7 +39,7 @@ class Perfil extends Component {
                 axios.all(this.getsT).then(
                     axios.spread((...responses) => {
                         this.teaching = responses.map((item) => item.data);
-                        this.setState({learning: this.learning, teaching: this.teaching, fetched: true});
+                        this.setState({teaching: this.teaching, fetchedT: true});
                     })
                 );
             }
@@ -58,7 +58,7 @@ class Perfil extends Component {
                         this.learning = res.map((item) => item.data);
                         this.setState({
                             learning: this.learning,
-                            teaching: this.teaching,
+                            fetchedL: true
                         });
                     })
                 );
@@ -67,6 +67,7 @@ class Perfil extends Component {
     }
 
     render() {
+        console.log(this.state);
         if (!this.logado) {
             return <Redirect to="/login" />;
         }
@@ -87,7 +88,7 @@ class Perfil extends Component {
                 </div>
                 <div className="corpo-perfil">
                     <h1>Suas aulas como professor: </h1>
-                    {this.state.fetched ? (
+                    {this.state.fetchedT ? (
                         <Aulas lista={this.state.teaching} />
                     ) : (
                         <h2>Carregando</h2>
@@ -96,7 +97,7 @@ class Perfil extends Component {
                         <Link to="/addAula">Adicionar uma aula</Link>
                     </button>
                     <h1>Suas aulas como aluno: </h1>
-                    {this.state.fetched ? (
+                    {this.state.fetchedL ? (
                         <Aulas lista={this.state.learning} />
                     ) : (
                         <h2>Carregando</h2>

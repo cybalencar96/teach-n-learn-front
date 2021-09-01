@@ -585,6 +585,17 @@ select {
     display: none;
 }
 
+.sucesso {
+    background-color: rgb(0, 166, 86);
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.alerta:empty {
+    display: none;
+}
+
 
 .btn-negativo {
     border-radius: 5px;

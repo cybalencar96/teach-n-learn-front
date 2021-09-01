@@ -5,14 +5,17 @@ class Alerta extends Component {
     constructor (props) {
         super(props);
         this.alerta = null;
+        console.log(this.props);
     }
-    render() { 
-        this.alerta = alertas[this.props.msg];
-        return ( 
-            <div className="alerta">
-                {this.alerta}
-            </div>
-         );
+    render() {
+        if(!this.props.msg){
+            this.alerta = ""
+            this.className = "alerta"
+        } else {
+            this.alerta = alertas[this.props.msg].msg;
+            this.className = alertas[this.props.msg].className;
+        }
+        return <div className={this.className}>{this.alerta}</div>;
     }
 }
  

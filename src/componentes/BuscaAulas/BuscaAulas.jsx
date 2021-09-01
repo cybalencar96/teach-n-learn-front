@@ -24,32 +24,15 @@ class BuscaAulas extends Component {
                 )
                 .then((res) => this.setState({ lista: res.data, fetched: true }));
         }
+        console.log("constructor");
     }
 
-    newFetch(){
-        if (!this.search) {
-            axios
-                .get(
-                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes"
-                )
-                .then((res) => {
-                    this.setState({ lista: res.data, fetched: true });
-                });
-        } else {
-            axios
-                .get(
-                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/search?name=" +
-                        this.search
-                )
-                .then((res) => this.setState({ lista: res.data, fetched: true }));
-        }
-    }
 
     render() {
         return (
             <div>
                 {this.state.fetched ? (
-                    <Aulas lista={this.state.lista} update={this.newFetch.bind(this)} />
+                    <Aulas lista={this.state.lista} />
                 ) : (
                     <h2>Carregando</h2>
                 )}
