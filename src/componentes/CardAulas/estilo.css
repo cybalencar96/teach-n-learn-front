@@ -7,6 +7,9 @@
 }
 
 .card-aula {
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
     border: rgb(0, 0, 0) 5px;
     background: rgb(69,148,241);
     background: radial-gradient(circle, rgba(69,148,241,1) 0%, rgba(162,202,248,1) 100%, rgba(255,255,255,0.6255544454109769) 100%, rgba(255,255,255,1) 100%);margin: 10px;

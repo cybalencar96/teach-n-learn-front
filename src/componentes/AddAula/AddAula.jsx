@@ -2,24 +2,25 @@ import React, { Component } from "react";
 import DiaSemana from "./DiaSemana";
 import "./estilo.css";
 import lista from "./listaDeDias";
+import {pt_en, en_pt} from "../../Extras/translate"
 const axios = require("axios");
 
 class AddAula extends Component {
     constructor(props) {
         super(props);
-        this.novoDia = "monday";
+        this.novoDia = "Segunda";
         this.state = {
             diasLivres: [
-                "monday",
-                "tuesday",
-                "wednesday",
-                "thursday",
-                "friday",
-                "saturday",
-                "sunday",
+                "Segunda",
+                "Terça",
+                "Quarta",
+                "Quinta",
+                "Sexta",
+                "Sabado",
+                "Domingo",
             ],
             listaDias: lista.slice(),
-            botao: "Cadastrar"
+            botao: "Cadastrar",
         };
         const id = JSON.parse(sessionStorage.getItem("user")).id;
         this.aula = {
@@ -41,8 +42,9 @@ class AddAula extends Component {
         //O seguinte método de cópia é necessário para que não afete o valor de this.state.listaDias
         //e consequentemente o de listas permanentemente. Nenhum outro método funcionou
         let atualizacao = JSON.parse(JSON.stringify(this.state.listaDias)); //Cópia estritamente por valor
+        console.log(pt_en[this.novoDia]);
         for (let i = 0; i < atualizacao.length; i++) {
-            if (atualizacao[i].weekday === this.novoDia) {
+            if (atualizacao[i].weekday === pt_en[this.novoDia]) {
                 atualizacao[i].hasClass = true;
             }
         }
@@ -68,7 +70,7 @@ class AddAula extends Component {
                 JSON.stringify(this.state.listaDias)
             );
             for (let i = 0; i < atualizacao.length; i++) {
-                if (atualizacao[i].weekday === value) {
+                if (atualizacao[i].weekday === pt_en[value]) {
                     atualizacao[i].hasClass = false;
                 }
             }
@@ -88,6 +90,7 @@ class AddAula extends Component {
     async HandleSubmit(evento) {
         evento.preventDefault();
         this.aula.dateClass = this.state.listaDias;
+        console.log(this.aula);
         this.setState({botao: "Cadastrando..."})
         await axios.post(
             "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes",
@@ -151,7 +154,7 @@ class AddAula extends Component {
                                 <DiaSemana
                                     handle={this.HandleDia.bind(this)}
                                     index={key}
-                                    dia={dia.weekday}
+                                    dia={en_pt[dia.weekday]}
                                 />
                             );
                         }

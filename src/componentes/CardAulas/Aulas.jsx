@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BtnBook, BtnDelete, BtnUnbook } from "./Botoes";
+import { en_pt } from "../../Extras/translate";
 import "./estilo.css";
 
 class Aulas extends Component {
@@ -69,7 +70,7 @@ class Aulas extends Component {
                                             <section key={index}>
                                                 <h2>
                                                     <strong>
-                                                        {dia.weekday}
+                                                        {en_pt[dia.weekday]}
                                                     </strong>
                                                 </h2>
                                                 <h3>

@@ -91,7 +91,12 @@ class Perfil extends Component {
                     {this.state.fetchedT ? (
                         <Aulas lista={this.state.teaching} />
                     ) : (
-                        <h2>Carregando</h2>
+                        <img
+                            src="./assets/loading-buffering.gif"
+                            alt="Loading png"
+                            height="100"
+                            width="100"
+                        />
                     )}
                     <button>
                         <Link to="/addAula">Adicionar uma aula</Link>
@@ -100,7 +105,12 @@ class Perfil extends Component {
                     {this.state.fetchedL ? (
                         <Aulas lista={this.state.learning} />
                     ) : (
-                        <h2>Carregando</h2>
+                        <img
+                            src="./assets/loading-buffering.gif"
+                            alt="Loading png"
+                            height="100"
+                            width="100"
+                        />
                     )}
                 </div>
             </div>

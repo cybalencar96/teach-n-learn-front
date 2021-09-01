@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Aulas from "../CardAulas/Aulas";
-
 class BuscaAulas extends Component {
     state = { lista: [], fetched: false };
     constructor(props) {
@@ -34,8 +33,23 @@ class BuscaAulas extends Component {
                 {this.state.fetched ? (
                     <Aulas lista={this.state.lista} />
                 ) : (
-                    <h2>Carregando</h2>
+                    <img
+                        src="./assets/loading-buffering.gif"
+                        alt="Loading png"
+                        height="200"
+                        width="200"
+                    />
                 )}
+                <div>
+                    Icons made by{" "}
+                    <a href="https://www.freepik.com" title="Freepik">
+                        Freepik
+                    </a>{" "}
+                    from{" "}
+                    <a href="https://www.flaticon.com/" title="Flaticon">
+                        www.flaticon.com
+                    </a>
+                </div>
             </div>
         );
     }

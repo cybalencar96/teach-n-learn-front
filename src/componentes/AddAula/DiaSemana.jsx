@@ -36,7 +36,7 @@ class DiaSemana extends Component {
         return (
             <fieldset className="dia-semana" key={this.index}>
                 <label>Dia</label>
-                <input id="dia" value={this.props.dia} readOnly />
+                <input id="dia" type="text" value={this.props.dia} readOnly />
                 <label>Começo</label>
                 <input
                     id="comeco"
