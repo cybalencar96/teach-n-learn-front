@@ -7,8 +7,8 @@ class BuscaAulas extends Component {
     constructor(props) {
         super(props);
         const urlParams = new URLSearchParams(window.location.search);
-        const search = urlParams.get("search");
-        if (!search) {
+        this.search = urlParams.get("search");
+        if (!this.search) {
             axios
                 .get(
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes"
@@ -20,16 +20,36 @@ class BuscaAulas extends Component {
             axios
                 .get(
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/search?name=" +
-                        search
+                        this.search
                 )
                 .then((res) => this.setState({ lista: res.data, fetched: true }));
         }
     }
+
+    newFetch(){
+        if (!this.search) {
+            axios
+                .get(
+                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes"
+                )
+                .then((res) => {
+                    this.setState({ lista: res.data, fetched: true });
+                });
+        } else {
+            axios
+                .get(
+                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/search?name=" +
+                        this.search
+                )
+                .then((res) => this.setState({ lista: res.data, fetched: true }));
+        }
+    }
+
     render() {
         return (
             <div>
                 {this.state.fetched ? (
-                    <Aulas lista={this.state.lista} />
+                    <Aulas lista={this.state.lista} update={this.newFetch.bind(this)} />
                 ) : (
                     <h2>Carregando</h2>
                 )}

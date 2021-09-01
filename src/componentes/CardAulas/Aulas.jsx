@@ -17,13 +17,12 @@ class Aulas extends Component {
         this.button = [];
     }
 
-    UpdateF(novaLista) {
-        console.log("Nova lista: ");
-        console.log(novaLista);
-        this.setState({ aulas: novaLista });    
+    UpdateF() {
+         window.location.reload();
     }
 
     render() {
+        console.log("render de aulas");
         return (
             <div className="lista-cards">
                 {this.state.aulas.map((aula, index) => {

@@ -15,7 +15,7 @@ class BtnDelete extends Component {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
                     aulas.teaching.splice(aulas.teaching.indexOf(this.props.id), 1); //deleta a aula da lista de "teaching"
                     sessionStorage.setItem("user", JSON.stringify(aulas));
-                    this.props.update(aulas.teaching);
+                    this.props.update();
                 } else {
                     console.error(res.data);
                 }
@@ -52,7 +52,7 @@ class BtnBook extends Component {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
                     aulas.learning.push(this.props.data.classId);
                     sessionStorage.setItem("user", JSON.stringify(aulas));
-                    this.props.update(aulas.learning);
+                    this.props.update();
                 } else {
                     console.error(res.data);
                 }
@@ -93,7 +93,7 @@ class BtnUnbook extends Component {
                     aulas.learning.splice(aulas.learning.indexOf(this.props.data.classId),1);
                     sessionStorage.setItem("user", JSON.stringify(aulas));
                     console.log(aulas);
-                    this.props.update(aulas.learning);
+                    this.props.update();
                 } else {
                     console.error(res.data);
                 }
