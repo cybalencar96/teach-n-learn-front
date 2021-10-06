@@ -23,7 +23,6 @@ class Aulas extends Component {
     }
 
     render() {
-        console.log("render de aulas");
         return (
             <div className="lista-cards">
                 {this.state.aulas.map((aula, index) => {
@@ -60,11 +59,11 @@ class Aulas extends Component {
                     }
                     return (
                         <div className="card-aula" key={index}>
-                            <h1> {aula.class} </h1>
+                            <h1> {aula.subject} </h1>
                             <h2>Maximo de estudantes: {aula.maxStudents}</h2>
                             <h2>Preço: {aula.price}</h2>
                             <div className="dias-semana-card">
-                                {aula.dateClass.map((dia, index) => {
+                                {aula.classDates.map((dia, index) => {
                                     if (dia.hasClass) {
                                         return (
                                             <section key={index}>

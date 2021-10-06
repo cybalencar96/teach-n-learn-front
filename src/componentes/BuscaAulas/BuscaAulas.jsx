@@ -13,6 +13,7 @@ class BuscaAulas extends Component {
                     "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes"
                 )
                 .then((res) => {
+                    console.log(res.data);
                     this.setState({ lista: res.data, fetched: true });
                 });
         } else {

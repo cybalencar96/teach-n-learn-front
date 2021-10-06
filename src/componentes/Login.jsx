@@ -40,6 +40,7 @@ class Login extends Component {
                 }
             )
             .then((res) => {
+                console.log(res.data);
                 if (res.data.status === 200) {
                     //login success
                     const novoEstado = {

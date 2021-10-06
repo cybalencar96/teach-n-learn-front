@@ -38,6 +38,8 @@ class Perfil extends Component {
                 //evita fazer requisições caso não existam aulas
                 axios.all(this.getsT).then(
                     axios.spread((...responses) => {
+                        console.log("Data: ");
+                        console.log(responses.data);
                         this.teaching = responses.map((item) => item.data);
                         this.setState({teaching: this.teaching, fetchedT: true});
                     })
