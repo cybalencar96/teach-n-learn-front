@@ -10,21 +10,31 @@ class BuscaAulas extends Component {
         if (!this.search) {
             axios
                 .get(
-                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes"
+                    "https://fathomless-coast-56337.herokuapp.com/classes"
                 )
                 .then((res) => {
-                    console.log(res.data);
-                    this.setState({ lista: res.data, fetched: true });
+                    this.setState({ lista: res.data.body, fetched: true });
+                })
+                .catch( (err) => {
+                    console.log(err);
+                    alert("Erro no sistema!");
                 });
         } else {
             axios
                 .get(
-                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/search?name=" +
-                        this.search
+                    "https://fathomless-coast-56337.herokuapp.com/classes",
+                    {
+                        params: {
+                        "type": "bySubject",
+                        "searchInfo": encodeURIComponent(JSON.stringify(this.search))
+                    }}
                 )
-                .then((res) => this.setState({ lista: res.data, fetched: true }));
+                .then((res) => this.setState({ lista: res.data, fetched: true }))
+                .catch( (err) => {
+                    console.log(err);
+                    alert("Erro no sistema!");
+                });
         }
-        console.log("constructor");
     }
 
 

@@ -26,20 +26,21 @@ class Aulas extends Component {
         return (
             <div className="lista-cards">
                 {this.state.aulas.map((aula, index) => {
-                    if (aula.teacherId === this.user.id) {
+                    if (aula.teacherId === this.user._id) {
                         this.button = [
                             <BtnDelete
                                 id={aula._id}
+                                teacher={aula.teacherId}
                                 update={this.UpdateF.bind(this)}
                                 key={index}
                             />,
                         ];
                     } else {
                         const dados = {
-                            userId: this.user.id,
+                            userId: this.user._id,
                             classId: aula._id,
                         };
-                        if (this.user.learning.includes(aula._id)) {
+                        if (this.user.learnings.includes(aula._id)) {
                             this.button = [
                                 <BtnUnbook
                                     data={dados}

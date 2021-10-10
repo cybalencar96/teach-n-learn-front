@@ -3,6 +3,7 @@ import DiaSemana from "./DiaSemana";
 import "./estilo.css";
 /* import lista from "./listaDeDias"; */
 import {pt_en, en_pt} from "../../Extras/translate"
+import Alerta from "../Alerta";
 const axios = require("axios");
 
 class AddAula extends Component {
@@ -88,6 +89,10 @@ class AddAula extends Component {
             sessionStorage.setItem("user", JSON.stringify(usuario));
             this.props.history.push("/perfil");
         })
+        .catch( (err) => {
+            console.log(err);
+            this.setState({msg: "Erro ao cadastrar aula!"});
+        })
     }
 
     _HandleChange(evento) {
@@ -100,6 +105,7 @@ class AddAula extends Component {
     render() {
         return (
             <div className="container-form">
+                <Alerta msg={this.state.msg} />
                 <form onSubmit={this.HandleSubmit.bind(this)}>
                     <fieldset className="inputCampo">
                         <label>Nome da aula</label>

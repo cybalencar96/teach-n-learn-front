@@ -4,12 +4,24 @@ import { Link } from "react-router-dom";
 
 class BtnDelete extends Component {
     _Delete() {
+        const pedido = {
+            "classId": this.props.id,
+            "userId": this.props.teacher
+        }
+        console.log(pedido);
         axios
             .delete(
-                "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
-                    this.props.id
+                "https://fathomless-coast-56337.herokuapp.com/classes",
+                {
+                    headers: { },
+                    data: {
+                        classId: this.props.id,
+                        userId: this.props.teacher
+                    }
+                }
             )
             .then( res => {
+                console.log(res);
                 if (res.data.status === 200){
                     console.log("Deletado!");
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
@@ -19,7 +31,11 @@ class BtnDelete extends Component {
                 } else {
                     console.error(res.data);
                 }
-            });
+            })
+            .catch((err) => {
+                console.log("Deu erro");
+                console.log(err);
+            });;
     }
 
     render() {
@@ -37,26 +53,29 @@ class BtnDelete extends Component {
 
 class BtnBook extends Component {
     _Book() {
-        console.log()
+        console.log("ClassId: " + this.props.data.classId + " UserId: ");
+        console.log(this.props.data);
         axios
             .post(
-                "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
+                "https://fathomless-coast-56337.herokuapp.com/classes/" +
                     this.props.data.classId +
                     "/book",
                 {
-                    body: { userId: this.props.data.userId},
+                    userId: this.props.data.userId,
                 }
             )
             .then((res) => {
-                if (res.data.status === 200) {
+                if (res.status === 200) {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
-                    aulas.learning.push(this.props.data.classId);
+                    aulas.learnings.push(this.props.data.classId);
                     sessionStorage.setItem("user", JSON.stringify(aulas));
                     this.props.update();
                 } else {
                     console.error(res.data);
                 }
-            });
+            })
+            .catch(err =>
+                console.error(err));  
     }
 
     render() {
@@ -80,19 +99,19 @@ class BtnUnbook extends Component {
     _Unbook() {
         axios
             .post(
-                "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
+                "https://fathomless-coast-56337.herokuapp.com/classes/" +
                     this.props.data.classId +
                     "/unbook",
                 {
-                    body: { userId: this.props.data.userId },
+                    userId: this.props.data.userId,
                 }
             )
             .then((res) => {
-                if (res.data.status === 200) {
+                console.log(res);
+                if (res.status === 200) {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
-                    aulas.learning.splice(aulas.learning.indexOf(this.props.data.classId),1);
+                    aulas.learnings.splice(aulas.learnings.indexOf(this.props.data.classId),1);
                     sessionStorage.setItem("user", JSON.stringify(aulas));
-                    console.log(aulas);
                     this.props.update();
                 } else {
                     console.error(res.data);

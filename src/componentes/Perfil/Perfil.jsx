@@ -23,7 +23,6 @@ class Perfil extends Component {
             this.foto = usuario.credentials.profileImg;
             this.teachingIds = usuario.teaching;
             this.learningIds = usuario.learnings;
-            console.log(this.learningIds, this.teachingIds);
             
             //Pega as aulas que está lecionando
             
@@ -33,17 +32,15 @@ class Perfil extends Component {
                     "https://fathomless-coast-56337.herokuapp.com/classes",
                     {
                         params:{
-                            "type": "byClassId",
-                            "searchInfo": encodeURIComponent(JSON.stringify(this.teachingIds))
+                            "type": "byTeacherId",
+                            "searchInfo": encodeURIComponent(JSON.stringify(this.idUsuario)) //insere o array na url do get
                         }
                     }
                 ).then( (res) => {
-                    console.log(res);
-                    console.log("Requisitados: ");
-                    console.log(this.teachingIds);
-                    console.log("Recebidos: ");
-                    console.log(res.data.body);
                     this.teaching = res.data.body;
+                    if (Object.prototype.toString.call(this.teaching) === "[object Object]"){
+                        this.teaching = [this.teaching];
+                    }
                     this.setState({teaching: this.teaching, fetchedT: true});
                 }
                 );
@@ -54,17 +51,21 @@ class Perfil extends Component {
                 axios.get(
                     "https://fathomless-coast-56337.herokuapp.com/classes",
                     {
-                        body:{
+                        params:{
                             "type": "byClassId",
-                            "searchInfo": this.learningIds
+                            "searchInfo": encodeURIComponent(JSON.stringify(this.learningIds)) //insere o array na url do get
                         }
                     }
                 ).then( (res) => {
-                    console.log(res);
                     this.learning = res.data.body;
+                    if (Object.prototype.toString.call(this.learning) === "[object Object]"){
+                        this.learning = [this.learning];
+                    }
                     this.setState({learning: this.learning, fetchedL: true});
                 }
                 );
+            } else {
+                this.setState({fetchedL: true});
             }
         }
     }
