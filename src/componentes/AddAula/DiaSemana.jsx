@@ -10,7 +10,7 @@ class DiaSemana extends Component {
                 this.props.handle(
                     10,
                     "weekday",
-                    evento.target.value
+                    this.props.index
                 );
                 break;
             case "comeco":

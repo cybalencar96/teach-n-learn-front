@@ -5,7 +5,6 @@ class Alerta extends Component {
     constructor (props) {
         super(props);
         this.alerta = null;
-        console.log(this.props);
     }
     render() {
         if(!this.props.msg){

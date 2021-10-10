@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import DiaSemana from "./DiaSemana";
 import "./estilo.css";
-import lista from "./listaDeDias";
+/* import lista from "./listaDeDias"; */
 import {pt_en, en_pt} from "../../Extras/translate"
 const axios = require("axios");
 
 class AddAula extends Component {
     constructor(props) {
         super(props);
-        this.novoDia = "Segunda";
         this.state = {
             diasLivres: [
                 "Segunda",
@@ -19,104 +18,83 @@ class AddAula extends Component {
                 "Sabado",
                 "Domingo",
             ],
-            listaDias: lista.slice(),
+            novoDia: "Segunda",
+            listaDias: [],
             botao: "Cadastrar",
+            nome: "",
+            numAlunos: 0,
+            preco: 0
         };
-        const id = JSON.parse(sessionStorage.getItem("user")).id;
+        const id = JSON.parse(sessionStorage.getItem("user"))._id;
         this.aula = {
-            teacherId: id,
-            class: "",
+            "teacherId": id,
+            subject: "",
             maxStudents: 0,
             price: 0,
-            dateClass: [],
+            classDates: [],
         };
     }
 
     maisDia(evento) {
         evento.stopPropagation();
         evento.preventDefault();
-        const indice = this.state.diasLivres.indexOf(this.novoDia);
-        const cortado = this.state.diasLivres.filter(
-            (item, index) => index !== indice
-        );
-        //O seguinte método de cópia é necessário para que não afete o valor de this.state.listaDias
-        //e consequentemente o de listas permanentemente. Nenhum outro método funcionou
-        let atualizacao = JSON.parse(JSON.stringify(this.state.listaDias)); //Cópia estritamente por valor
-        console.log(pt_en[this.novoDia]);
-        for (let i = 0; i < atualizacao.length; i++) {
-            if (atualizacao[i].weekday === pt_en[this.novoDia]) {
-                atualizacao[i].hasClass = true;
-            }
+        const template = {
+            weekday: pt_en[this.state.novoDia],
+            hasClass: true,
+            startHour: "",
+            endHour: "",
         }
         const novoEstado = {
-            diasLivres: cortado,
-            listaDias: atualizacao,
+            listaDias: [...this.state.listaDias, template],
         };
         this.setState(novoEstado);
-
-        this.novoDia = this.state.diasLivres[1];
     }
 
     HandleDia(key, att, value) {
         if(key !== 10){ //Código 10 significa delete
-            const atualizacao = [...this.state.listaDias];
+            let atualizacao = [...this.state.listaDias];
             atualizacao[key][att] = value;
             const novoEstado = {
                 listaDias: atualizacao,
             };
             this.setState(novoEstado);
-        } else {
-            let atualizacao = JSON.parse(
-                JSON.stringify(this.state.listaDias)
-            );
-            for (let i = 0; i < atualizacao.length; i++) {
-                if (atualizacao[i].weekday === pt_en[value]) {
-                    atualizacao[i].hasClass = false;
-                }
-            }
-            const novoEstado = {
-                diasLivres: [...this.state.diasLivres, value],
-                listaDias: atualizacao,
-            };
-            this.setState(novoEstado);
+        } else { //se for para deletar
+            let atualizacao = [...this.state.listaDias];
+            atualizacao.splice(value,1); //remove o item da lista
+            this.setState({listaDias: atualizacao});
         }
     }
 
     _HandleNovo(evento) {
         evento.preventDefault();
-        this.novoDia = evento.target.value;
+        this.setState({novoDia: evento.target.value});
     }
 
     async HandleSubmit(evento) {
         evento.preventDefault();
-        this.aula.dateClass = this.state.listaDias;
+        this.aula.classDates = this.state.listaDias;
+        this.aula.subject = this.state.nome;
+        this.aula.maxStudents = this.state.numAlunos;
+        this.aula.price = this.state.preco;
         console.log(this.aula);
-        this.setState({botao: "Cadastrando..."})
+        this.setState({botao: "Cadastrando..."});
         await axios.post(
-            "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes",
-            {body: this.aula}
+            "https://fathomless-coast-56337.herokuapp.com/classes",
+            this.aula 
         ).then( res => {
+            console.log(res);
             const usuario = JSON.parse(sessionStorage.getItem("user"));
-            usuario.teaching.push(res.data.insertedId);
+            usuario.teaching.push(res.data.body.posted._id);
             sessionStorage.setItem("user", JSON.stringify(usuario));
             this.props.history.push("/perfil");
         })
     }
 
     _HandleChange(evento) {
-        switch (evento.target.id) {
-            case "nome":
-                this.aula.class = evento.target.value;
-                break;
-            case "numAlunos":
-                this.aula.maxStudents = Number(evento.target.value);
-                break;
-            case "preco":
-                this.aula.price = Number(evento.target.value);
-                break;
-            default:
-                break;
-        }
+        const value = evento.target.type === "number" ? Number(evento.target.value) : evento.target.value;
+        this.setState({
+            [evento.target.id]: value 
+        });
     }
 
     render() {
@@ -128,6 +106,7 @@ class AddAula extends Component {
                         <input
                             id="nome"
                             type="text"
+                            value={this.state.nome}
                             onChange={this._HandleChange.bind(this)}
                         />
                     </fieldset>
@@ -136,6 +115,7 @@ class AddAula extends Component {
                         <input
                             id="numAlunos"
                             type="number"
+                            value={this.state.numAlunos}
                             onChange={this._HandleChange.bind(this)}
                         />
                     </fieldset>
@@ -144,6 +124,7 @@ class AddAula extends Component {
                         <input
                             id="preco"
                             type="number"
+                            value={this.state.preco}
                             onChange={this._HandleChange.bind(this)}
                         />
                     </fieldset>
@@ -160,7 +141,7 @@ class AddAula extends Component {
                         }
                         return("");
                     })}
-                    <select onChange={this._HandleNovo.bind(this)}>
+                    <select onChange={this._HandleNovo.bind(this)} value={this.state.novoDia}>
                         {this.state.diasLivres.map((dia, key) => {
                             return (
                                 <option key={key} value={dia}>

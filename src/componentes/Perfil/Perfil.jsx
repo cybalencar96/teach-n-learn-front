@@ -16,60 +16,60 @@ class Perfil extends Component {
         //Isso garante que não haverá erro de construcao com dados nulos.
         if (this.logado) {
             const usuario = JSON.parse(sessionStorage.getItem("user"));
-            this.idUsuario = usuario.id;
-            this.userHandle = usuario.basicInfo.name;
-            this.email = usuario.basicInfo.email;
-            this.phone = usuario.basicInfo.phone;
-            this.foto = usuario.basicInfo.profileImg;
+            this.idUsuario = usuario._id;
+            this.userHandle = usuario.credentials.name;
+            this.email = usuario.credentials.email;
+            this.phone = usuario.credentials.phone;
+            this.foto = usuario.credentials.profileImg;
             this.teachingIds = usuario.teaching;
-            this.learningIds = usuario.learning;
+            this.learningIds = usuario.learnings;
+            console.log(this.learningIds, this.teachingIds);
             
             //Pega as aulas que está lecionando
             
-            this.getsT = [];
-            for (let i = 0; i < this.teachingIds.length; i++) { //Cria um array de requisições com todas as urls das aulas lecionadas
-                this.getsT.push(axios.get(
-                        "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
-                            this.teachingIds[i]
-                    )
-                );
-            }
-            if(this.getsT){
+            if(this.teachingIds.length !== 0){
                 //evita fazer requisições caso não existam aulas
-                axios.all(this.getsT).then(
-                    axios.spread((...responses) => {
-                        console.log("Data: ");
-                        console.log(responses.data);
-                        this.teaching = responses.map((item) => item.data);
-                        this.setState({teaching: this.teaching, fetchedT: true});
-                    })
+                axios.get(
+                    "https://fathomless-coast-56337.herokuapp.com/classes",
+                    {
+                        params:{
+                            "type": "byClassId",
+                            "searchInfo": encodeURIComponent(JSON.stringify(this.teachingIds))
+                        }
+                    }
+                ).then( (res) => {
+                    console.log(res);
+                    console.log("Requisitados: ");
+                    console.log(this.teachingIds);
+                    console.log("Recebidos: ");
+                    console.log(res.data.body);
+                    this.teaching = res.data.body;
+                    this.setState({teaching: this.teaching, fetchedT: true});
+                }
                 );
             }
             
             //Pega as aulas que está assistindo
-            this.getsL = [];
-            for (let i = 0; i < this.learningIds.length; i++) { //Cria um array de requisições de aulas assistidas
-                this.getsL.push(axios.get(
-                    "https://afternoon-ridge-91819.herokuapp.com/api/v0/classes/" +
-                        this.learningIds[i]
-                ));
-            }
-            if(this.getsL){ //evita fazer requisições caso não existam aulas
-                axios.all(this.getsL).then(
-                    axios.spread((...res) => {
-                        this.learning = res.map((item) => item.data);
-                        this.setState({
-                            learning: this.learning,
-                            fetchedL: true
-                        });
-                    })
+            if(this.learningIds.length !== 0){ //evita fazer requisições caso não existam aulas
+                axios.get(
+                    "https://fathomless-coast-56337.herokuapp.com/classes",
+                    {
+                        body:{
+                            "type": "byClassId",
+                            "searchInfo": this.learningIds
+                        }
+                    }
+                ).then( (res) => {
+                    console.log(res);
+                    this.learning = res.data.body;
+                    this.setState({learning: this.learning, fetchedL: true});
+                }
                 );
             }
         }
     }
 
     render() {
-        console.log(this.state);
         if (!this.logado) {
             return <Redirect to="/login" />;
         }

@@ -31,24 +31,23 @@ class Login extends Component {
         this.setState({botao: "Entrando..."}) //Indica ao usuário pelo botão que o proceso está sendo feito
         await axios
             .post( //Requisição de login ao servidor
-                "https://afternoon-ridge-91819.herokuapp.com/api/v0/users/login",
+                "https://fierce-savannah-13251.herokuapp.com/user/login",
                 {
-                    body: {
-                        username: this.username,
-                        password: this.senha,
-                    },
+                    username: this.username,
+                    password: this.senha,
                 }
             )
             .then((res) => {
-                console.log(res.data);
-                if (res.data.status === 200) {
+                console.log("Olha o status");
+                console.log(res.status);
+                if (res.data.statusCode === 201) {
                     //login success
                     const novoEstado = {
                         userIsLogged: true,
                     };
                     this.props.LogUser(novoEstado);
                     sessionStorage.setItem("userIsLogged", JSON.stringify(true));
-                    sessionStorage.setItem("user", JSON.stringify(res.data.userData));
+                    sessionStorage.setItem("user", JSON.stringify(res.data.body));
                     this.props.history.push("/"); //Redireciona para a Home
                 } else {
                     const novoEstado = {
@@ -58,7 +57,10 @@ class Login extends Component {
                     this.setState(novoEstado);
                 }
             })
-            .catch((err) => console.log(err.response));
+            .catch((err) => {
+                console.log("Deu erro");
+                console.log(err.response);
+            });
     }
 
     render() {

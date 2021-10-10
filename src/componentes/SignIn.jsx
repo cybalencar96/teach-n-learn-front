@@ -9,35 +9,39 @@ class SignIn extends Component {
             msg: ""
         }   
         this.dados = {
-            name: "",
-            email: "",
-            username: "",
-            password: "",
-            phone: "",
-            profileImg: "",
-        };
+            "public": {
+                "name": "",
+                "email": "",
+                "phone":"",
+                "profileImg":""
+            },
+            "private": {
+                "username": "",
+                "password": ""
+            }
+        }
     }
 
     _HandleChange(evento) {
         evento.stopPropagation();
         switch (evento.target.id) {
             case "nome":
-                this.dados.name = evento.target.value;
+                this.dados.public.name = evento.target.value;
                 break;
             case "email":
-                this.dados.email = evento.target.value;
+                this.dados.public.email = evento.target.value;
                 break;
             case "username":
-                this.dados.username = evento.target.value;
+                this.dados.private.username = evento.target.value;
                 break;
             case "senha":
-                this.dados.password = evento.target.value;
+                this.dados.private.password = evento.target.value;
                 break;
             case "phone":
-                this.dados.phone = evento.target.value;
+                this.dados.public.phone = evento.target.value;
                 break;
             case "imgLink":
-                this.dados.profileImg = evento.target.value;
+                this.dados.public.profileImg = evento.target.value;
                 break;
             default:
                 break;
@@ -48,9 +52,9 @@ class SignIn extends Component {
         evento.preventDefault();
         console.log(this.dados);
         axios.post(
-            "https://afternoon-ridge-91819.herokuapp.com/api/v0/users/signin",
+            "https://fierce-savannah-13251.herokuapp.com/user/signin",
             {
-                body: this.dados,
+                "credentials": this.dados
             }
         ).then( (res) => {
             console.log("Resposta recebida");
