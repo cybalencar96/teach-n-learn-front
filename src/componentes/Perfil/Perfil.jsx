@@ -43,11 +43,15 @@ class Perfil extends Component {
                     }
                     this.setState({teaching: this.teaching, fetchedT: true});
                 }
-                );
+                ).catch((err) => {
+                    alert("Erro de conexão!");
+                    console.error(err);
+                });
             }
             
             //Pega as aulas que está assistindo
             if(this.learningIds.length !== 0){ //evita fazer requisições caso não existam aulas
+                console.log("learning");
                 axios.get(
                     "https://fathomless-coast-56337.herokuapp.com/classes",
                     {
@@ -63,9 +67,10 @@ class Perfil extends Component {
                     }
                     this.setState({learning: this.learning, fetchedL: true});
                 }
-                );
-            } else {
-                this.setState({fetchedL: true});
+                ).catch((err) => {
+                    alert("Erro de conexão!");
+                    console.error(err);
+                });
             }
         }
     }

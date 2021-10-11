@@ -11,8 +11,8 @@ class Aulas extends Component {
             this.user = JSON.parse(sessionStorage.getItem("user"));
         } else {
             this.user = {
-                id: null,
-                learning: [],
+                _id: null,
+                learnings: [],
             };
         }
         this.button = [];

@@ -4,11 +4,6 @@ import { Link } from "react-router-dom";
 
 class BtnDelete extends Component {
     _Delete() {
-        const pedido = {
-            "classId": this.props.id,
-            "userId": this.props.teacher
-        }
-        console.log(pedido);
         axios
             .delete(
                 "https://fathomless-coast-56337.herokuapp.com/classes",
@@ -21,9 +16,7 @@ class BtnDelete extends Component {
                 }
             )
             .then( res => {
-                console.log(res);
-                if (res.data.status === 200){
-                    console.log("Deletado!");
+                if (res.status === 200){
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
                     aulas.teaching.splice(aulas.teaching.indexOf(this.props.id), 1); //deleta a aula da lista de "teaching"
                     sessionStorage.setItem("user", JSON.stringify(aulas));
@@ -33,7 +26,7 @@ class BtnDelete extends Component {
                 }
             })
             .catch((err) => {
-                console.log("Deu erro");
+                alert("Erro no sistema");
                 console.log(err);
             });;
     }
@@ -53,8 +46,6 @@ class BtnDelete extends Component {
 
 class BtnBook extends Component {
     _Book() {
-        console.log("ClassId: " + this.props.data.classId + " UserId: ");
-        console.log(this.props.data);
         axios
             .post(
                 "https://fathomless-coast-56337.herokuapp.com/classes/" +
@@ -107,7 +98,6 @@ class BtnUnbook extends Component {
                 }
             )
             .then((res) => {
-                console.log(res);
                 if (res.status === 200) {
                     const aulas = JSON.parse(sessionStorage.getItem("user"));
                     aulas.learnings.splice(aulas.learnings.indexOf(this.props.data.classId),1);

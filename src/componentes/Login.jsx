@@ -38,8 +38,6 @@ class Login extends Component {
                 }
             )
             .then((res) => {
-                console.log("Olha o status");
-                console.log(res.status);
                 if (res.data.statusCode === 201) {
                     //login success
                     const novoEstado = {
@@ -58,7 +56,7 @@ class Login extends Component {
                 }
             })
             .catch((err) => {
-                console.log("Deu erro");
+                alert("Erro no sistema");
                 console.log(err.response);
             });
     }

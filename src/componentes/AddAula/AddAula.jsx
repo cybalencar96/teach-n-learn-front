@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import DiaSemana from "./DiaSemana";
 import "./estilo.css";
-/* import lista from "./listaDeDias"; */
 import {pt_en, en_pt} from "../../Extras/translate"
 import Alerta from "../Alerta";
 const axios = require("axios");
@@ -9,6 +8,7 @@ const axios = require("axios");
 class AddAula extends Component {
     constructor(props) {
         super(props);
+        this.clearSubmit = false;
         this.state = {
             diasLivres: [
                 "Segunda",
@@ -24,7 +24,8 @@ class AddAula extends Component {
             botao: "Cadastrar",
             nome: "",
             numAlunos: 0,
-            preco: 0
+            preco: 0,
+            msg: ""
         };
         const id = JSON.parse(sessionStorage.getItem("user"))._id;
         this.aula = {
@@ -77,22 +78,40 @@ class AddAula extends Component {
         this.aula.subject = this.state.nome;
         this.aula.maxStudents = this.state.numAlunos;
         this.aula.price = this.state.preco;
-        console.log(this.aula);
+        this.clearSubmit = true;
+        if (this.aula.maxStudents < 1){
+            this.setState({msg:"maxStGr80"});
+            this.clearSubmit = false;
+        }
+        if (this.aula.classDates.length < 1){
+            this.setState({msg:"lenGr80"});
+            this.clearSubmit = false;
+        } else {
+            console.log(this.aula.classDates);
+            this.aula.classDates.forEach( item => {
+                if (item.endHour === "" || item.startHour === ""){
+                    this.setState({msg:"missingHour"});
+                    this.clearSubmit = false;
+                }
+            })
+        }
         this.setState({botao: "Cadastrando..."});
-        await axios.post(
-            "https://fathomless-coast-56337.herokuapp.com/classes",
-            this.aula 
-        ).then( res => {
-            console.log(res);
-            const usuario = JSON.parse(sessionStorage.getItem("user"));
-            usuario.teaching.push(res.data.body.posted._id);
-            sessionStorage.setItem("user", JSON.stringify(usuario));
-            this.props.history.push("/perfil");
-        })
-        .catch( (err) => {
-            console.log(err);
-            this.setState({msg: "Erro ao cadastrar aula!"});
-        })
+        if (this.clearSubmit){
+            await axios.post(
+                "https://fathomless-coast-56337.herokuapp.com/classes",
+                this.aula 
+            ).then( res => {
+                console.log(res);
+                const usuario = JSON.parse(sessionStorage.getItem("user"));
+                usuario.teaching.push(res.data.body.posted._id);
+                sessionStorage.setItem("user", JSON.stringify(usuario));
+                this.props.history.push("/perfil");
+            })
+            .catch( (err) => {
+                console.log(err);
+                this.setState({msg: "Erro ao cadastrar aula!"});
+            })
+        }
     }
 
     _HandleChange(evento) {

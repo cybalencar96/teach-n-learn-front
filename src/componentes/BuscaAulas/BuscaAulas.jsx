@@ -16,7 +16,7 @@ class BuscaAulas extends Component {
                     this.setState({ lista: res.data.body, fetched: true });
                 })
                 .catch( (err) => {
-                    console.log(err);
+                    console.log(err);   
                     alert("Erro no sistema!");
                 });
         } else {
@@ -29,7 +29,13 @@ class BuscaAulas extends Component {
                         "searchInfo": encodeURIComponent(JSON.stringify(this.search))
                     }}
                 )
-                .then((res) => this.setState({ lista: res.data, fetched: true }))
+                .then((res) => {
+                    let resultados = res.data.body;
+                    if (Object.prototype.toString.call(resultados) === "[object Object]"){
+                        resultados = [resultados];
+                    }
+                    this.setState({ lista: resultados, fetched: true })
+                })
                 .catch( (err) => {
                     console.log(err);
                     alert("Erro no sistema!");
